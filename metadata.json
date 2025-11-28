@@ -1,0 +1,7 @@
+{
+  "name": "Padel & Palms: The Effortless Flow Journey",
+  "description": "A digital proposal and storyboard visualizing the automated customer journey for Padel & Palms, featuring AI integration and dynamic pricing.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
