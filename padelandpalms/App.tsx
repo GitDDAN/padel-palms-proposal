@@ -99,7 +99,7 @@ const Panel: React.FC<{
   return (
     <section
       id={id}
-      className={`min-h-screen w-full flex flex-col justify-center items-center p-4 pb-24 sm:p-6 md:p-12 md:pt-20 lg:pt-12 lg:pl-64 xl:pl-72 relative border-b-4 md:border-b-0 border-pp-pink/20 ${className}`}
+      className={`min-h-screen w-full flex flex-col justify-center items-center p-4 pb-32 sm:p-6 sm:pb-36 md:p-12 md:pb-40 md:pt-20 lg:pt-12 lg:pl-64 xl:pl-72 relative border-b-4 md:border-b-0 border-pp-pink/20 ${className}`}
       style={style}
     >
       {children}
@@ -783,7 +783,7 @@ const App: React.FC = () => {
       <Panel
         id="hero"
         nextId="panel1"
-        className="bg-black text-white relative overflow-hidden p-0"
+        className="bg-black text-white relative overflow-hidden p-0 lg:pl-0 xl:pl-0"
       >
         <style>{`
           @keyframes heroFadeIn {
@@ -956,19 +956,19 @@ const App: React.FC = () => {
             <h2 className="text-2xl md:text-4xl font-bold font-sans text-white tracking-wide mt-3 md:mt-4 drop-shadow-lg">
               Padel & Palms: Your Complete Automation Solution
             </h2>
-            <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans border-l-3 md:border-l-4 border-pp-pink pl-4 md:pl-6 text-left drop-shadow-md leading-relaxed">
+            <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans text-center drop-shadow-md leading-relaxed">
               Transform your resort operations with seamless booking automation, guest engagement, and AI-powered support. From villa reservations to court bookings—all in one effortless system.
             </p>
 
             {/* Review Proposal CTA - Scrolls to first section */}
-            <div className="mt-6 md:mt-12">
+            <div className="mt-6 md:mt-12 text-center">
               <button
                 onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 className="bg-pink-600 hover:bg-pink-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
                 See How It Works
               </button>
-              <p className="mt-4 text-sm text-gray-300">Discover the complete automation system built for Padel & Palms</p>
+              <p className="mt-4 text-sm text-gray-300 text-center">Discover the complete automation system built for Padel & Palms</p>
             </div>
           </div>
         </div>
