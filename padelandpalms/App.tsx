@@ -213,22 +213,22 @@ const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?
   }, []);
 
   return (
-    <div ref={noteRef} className="hidden md:block absolute bottom-8 left-8 lg:left-72 xl:left-80 z-10 max-w-xs">
+    <div ref={noteRef} className="hidden lg:block absolute bottom-8 right-8 z-10 max-w-xs">
       <style>{`
         @keyframes padelSlideIn {
           0% {
-            transform: translateX(-150%) rotate(-180deg) scale(0.3);
+            transform: translateX(150%) rotate(180deg) scale(0.3);
             opacity: 0;
           }
           60% {
-            transform: translateX(10px) rotate(-5deg) scale(1.05);
+            transform: translateX(-10px) rotate(5deg) scale(1.05);
             opacity: 1;
           }
           80% {
-            transform: translateX(-5px) rotate(-1deg) scale(0.98);
+            transform: translateX(5px) rotate(1deg) scale(0.98);
           }
           100% {
-            transform: translateX(0) rotate(-2deg) scale(1);
+            transform: translateX(0) rotate(2deg) scale(1);
             opacity: 1;
           }
         }
@@ -343,7 +343,7 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
       </div>
 
       {/* Mobile Navigation - Bottom bar horizontal with improved touch targets */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-sm border-t-2 border-pp-pink/30 z-50 shadow-2xl">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-pp-pink/30 z-50 shadow-2xl">
         <div className="flex justify-start items-center py-2.5 px-2 gap-1 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style>{`
             .scrollbar-hide::-webkit-scrollbar {
