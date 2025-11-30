@@ -89,54 +89,19 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   currency = 'USD',
   convertPrice = (price) => `$${price}`
 }) => {
-  const [selectedId, setSelectedId] = useState<string>('custom');
-
-  const selectedPackage = PACKAGES.find(p => p.id === selectedId) || PACKAGES[1];
   const hasCustomServices = selectedServices.length > 0;
 
   return (
     <div className="bg-white p-3 sm:p-4 md:p-8 rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl border-t-2 sm:border-t-4 md:border-t-8 border-pp-pink max-w-4xl mx-auto w-full">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-pp-green mb-1 sm:mb-2 text-center">Start Your Transformation</h2>
       <p className="text-center text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6 md:mb-8">
-        {hasCustomServices ? 'Your custom package is ready below' : 'Choose a package or build your own as you explore'}
+        {hasCustomServices ? 'Your custom package is ready below' : 'Build your perfect package by selecting the services you need'}
       </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
-        {PACKAGES.map((pkg) => (
-          <div 
-            key={pkg.id}
-            onClick={() => setSelectedId(pkg.id)}
-            className={`cursor-pointer rounded-lg sm:rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 transition-all duration-300 relative ${
-              selectedId === pkg.id
-                ? 'border-pp-green bg-pp-green/5 shadow-lg scale-105 z-10'
-                : 'border-gray-200 hover:border-pp-teal/50'
-            }`}
-          >
-            {selectedId === pkg.id && (
-              <div className="absolute -top-2 sm:-top-2.5 md:-top-3 left-1/2 transform -translate-x-1/2 bg-pp-green text-white text-[10px] sm:text-xs px-2 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-wider font-bold">
-                Selected
-              </div>
-            )}
-            <h3 className="font-bold text-base sm:text-lg text-pp-green">{pkg.name}</h3>
-            <div className="text-2xl sm:text-2.5xl md:text-3xl font-bold text-gray-800 my-2 sm:my-3 md:my-4">
-              {convertPrice(pkg.price, currency)}<span className="text-xs sm:text-sm font-normal text-gray-500">/mo</span>
-            </div>
-            <ul className="space-y-1.5 sm:space-y-2">
-              {pkg.features.map((feat, i) => (
-                <li key={i} className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
-                  <Check className="w-3 h-3 sm:w-4 sm:h-4 text-pp-pink flex-shrink-0" />
-                  {feat}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
 
       {/* Build Your Custom Package - Interactive Service Selection */}
       <div className="mb-4 sm:mb-6 md:mb-8">
         <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pp-green mb-2 sm:mb-3 md:mb-4">
-          Or Build Your Custom Package
+          Build Your Custom Package
         </h3>
         <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4 md:mb-6">
           Select the services that fit your needs. Click any service to add or remove it from your package.
@@ -343,39 +308,37 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             <span className="block text-gray-500 text-xs md:text-sm uppercase tracking-wide">Monthly Total</span>
             <span className="text-3xl md:text-4xl font-bold text-pp-green">
               {convertPrice(
-                hasCustomServices
-                  ? (() => {
-                      let total = 0;
-                      SERVICES.forEach(service => {
-                        if (service.isBundle && service.subServices) {
-                          if (service.dynamicPricing) {
-                            // Count selected sub-services for dynamic pricing
-                            const selectedCount = service.subServices.filter(sub =>
-                              selectedServices.includes(sub.id)
-                            ).length;
+                (() => {
+                  let total = 0;
+                  SERVICES.forEach(service => {
+                    if (service.isBundle && service.subServices) {
+                      if (service.dynamicPricing) {
+                        // Count selected sub-services for dynamic pricing
+                        const selectedCount = service.subServices.filter(sub =>
+                          selectedServices.includes(sub.id)
+                        ).length;
 
-                            if (selectedCount > 0) {
-                              service.subServices.forEach(sub => {
-                                if (selectedServices.includes(sub.id)) {
-                                  const priceForCount = sub.pricePerCount?.[selectedCount] || sub.basePrice || sub.price || 0;
-                                  total += priceForCount;
-                                }
-                              });
+                        if (selectedCount > 0) {
+                          service.subServices.forEach(sub => {
+                            if (selectedServices.includes(sub.id)) {
+                              const priceForCount = sub.pricePerCount?.[selectedCount] || sub.basePrice || sub.price || 0;
+                              total += priceForCount;
                             }
-                          } else {
-                            service.subServices.forEach(sub => {
-                              if (selectedServices.includes(sub.id)) {
-                                total += sub.price || 0;
-                              }
-                            });
-                          }
-                        } else if (selectedServices.includes(service.id) && !service.isOneTime) {
-                          total += service.price || 0;
+                          });
                         }
-                      });
-                      return total;
-                    })()
-                  : selectedPackage.price,
+                      } else {
+                        service.subServices.forEach(sub => {
+                          if (selectedServices.includes(sub.id)) {
+                            total += sub.price || 0;
+                          }
+                        });
+                      }
+                    } else if (selectedServices.includes(service.id) && !service.isOneTime) {
+                      total += service.price || 0;
+                    }
+                  });
+                  return total;
+                })(),
                 currency
               )}
             </span>
