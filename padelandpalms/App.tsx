@@ -106,7 +106,7 @@ const Panel: React.FC<{
       {nextId && (
         <button
           onClick={scrollToNext}
-          className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 group cursor-pointer z-30 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 group cursor-pointer z-20 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           aria-label="Next Slide"
         >
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-pp-green shadow-sm mb-0.5 sm:mb-1">
@@ -730,7 +730,7 @@ const App: React.FC = () => {
       <Panel
         id="hero"
         nextId="panel1"
-        className="bg-black text-white relative overflow-hidden"
+        className="bg-black text-white relative overflow-hidden p-0"
       >
         <style>{`
           @keyframes heroFadeIn {
@@ -807,7 +807,7 @@ const App: React.FC = () => {
         <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40"></div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden relative min-h-screen">
+        <div className="md:hidden absolute inset-0 overflow-hidden">
           {/* Full screen mobile background image */}
           <div
             className="absolute inset-0"
@@ -818,37 +818,54 @@ const App: React.FC = () => {
             }}
           ></div>
 
-          {/* Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70"></div>
-
-          {/* Content Container */}
-          <div className="relative z-10 min-h-screen flex flex-col justify-between py-16 px-6">
+          {/* Content Container - Title top, CTA bottom */}
+          <div className="relative z-10 h-full flex flex-col justify-between items-center px-6 pt-24 pb-8">
+            <style>{`
+              @keyframes fadeInScale {
+                0% {
+                  opacity: 0;
+                  transform: scale(0.8) translateY(20px);
+                }
+                100% {
+                  opacity: 1;
+                  transform: scale(1) translateY(0);
+                }
+              }
+              .animate-title-1 {
+                animation: fadeInScale 0.8s ease-out 0.2s both;
+              }
+              .animate-title-2 {
+                animation: fadeInScale 0.8s ease-out 0.6s both;
+              }
+              .animate-title-3 {
+                animation: fadeInScale 0.8s ease-out 1s both;
+              }
+              .animate-content {
+                animation: fadeInScale 0.8s ease-out 1.4s both;
+              }
+            `}</style>
 
             {/* Top Section: Badge */}
-            <div className="flex justify-center pt-8">
-              <div className="inline-flex items-center gap-2 bg-black/70 backdrop-blur-md border border-white/50 px-4 py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl text-xs">
-                <MapPin className="w-4 h-4 text-pp-pink" />
-                Siargao Island • Philippines
+            <div className="absolute top-6 left-0 right-0 flex justify-center">
+              <div className="inline-flex items-center justify-center gap-2 bg-black/70 backdrop-blur-md border border-white/50 px-4 py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl text-xs text-center">
+                <MapPin className="w-4 h-4 text-pp-pink flex-shrink-0" />
+                <span>Siargao Island • Philippines</span>
               </div>
             </div>
 
-            {/* Middle Section: Padel & Palms Title */}
-            <div className="flex-1 flex items-center justify-center">
-              <h1 className="font-serif font-black text-white leading-tight text-center" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.8)' }}>
-                <div className="text-6xl mb-3">
-                  Padel
-                </div>
-                <div className="text-7xl text-pp-pink my-4">
-                  &
-                </div>
-                <div className="text-6xl mt-3">
-                  Palms
+            {/* Padel & Palms Title - Top */}
+            <div className="flex flex-col items-center justify-start w-full max-w-lg">
+              <h1 className="font-serif font-black text-white leading-tight text-center relative animate-title-1" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.8)' }}>
+                <div className="text-5xl flex items-center gap-2 justify-center">
+                  <span>Padel</span>
+                  <span className="text-3xl text-pp-pink">&</span>
+                  <span>Palms</span>
                 </div>
               </h1>
             </div>
 
-            {/* Bottom Section: Description and CTA */}
-            <div className="space-y-4 pb-8">
+            {/* Description and CTA - Bottom */}
+            <div className="space-y-4 w-full max-w-lg animate-content mb-4">
               <h2 className="text-xl font-bold font-sans text-white tracking-wide text-center" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.95), 0 4px 20px rgba(0,0,0,0.9)' }}>
                 Your Complete Automation Solution
               </h2>
@@ -1156,41 +1173,43 @@ const App: React.FC = () => {
       {/* --- PANEL 5: AI Receptionist Demo (TEXT + VOICE) --- */}
       <Panel id="panel5" nextId="panel6" className="bg-gradient-to-br from-pp-teal to-[#1a3c34] text-white">
         <HandwrittenNote text="24/7 AI receptionist that talks AND texts! Your staff can focus on real hospitality, not answering 'Where's my towel?'" />
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl w-full">
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-5xl font-bold font-serif text-pp-sand">24/7 AI Guest Support<br/><span className="text-2xl md:text-3xl text-pp-teal">(So Your Staff Doesn't Have To)</span></h2>
-            <p className="text-base md:text-xl text-blue-50 leading-relaxed">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center max-w-6xl w-full px-4">
+          <div className="space-y-4 sm:space-y-5 lg:space-y-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold font-serif text-pp-sand">24/7 AI Guest Support<br/><span className="text-xl sm:text-2xl lg:text-3xl text-pp-teal">(So Your Staff Doesn't Have To)</span></h2>
+            <p className="text-sm sm:text-base lg:text-xl text-blue-50 leading-relaxed">
               Guests can text, call, or email with questions—day or night—and get instant, intelligent responses. Need a towel? Want restaurant recommendations? Looking for activity bookings? The AI handles it all and notifies your staff only when needed. <span className="font-semibold text-pp-pink">Your team focuses on high-value hospitality, not repetitive requests.</span>
             </p>
-            <div className="space-y-4">
-              <div className="flex gap-4 items-start">
-                <div className="bg-white/20 p-3 rounded-2xl rounded-tl-none font-mono text-sm">User</div>
-                <p className="pt-2">"Can I order a towel for my next game?"</p>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex gap-2 sm:gap-3 md:gap-4 items-start">
+                <div className="bg-white/20 p-2 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl rounded-tl-none font-mono text-xs sm:text-sm flex-shrink-0">User</div>
+                <p className="pt-1.5 sm:pt-2 text-sm sm:text-base">"Can I order a towel for my next game?"</p>
               </div>
-              <div className="flex gap-4 items-start">
-                <div className="bg-pp-green p-3 rounded-2xl rounded-tr-none border border-pp-teal font-mono text-sm">AI</div>
-                <p className="pt-2">Routes request to housekeeping & confirms instantly via Voice or Text.</p>
+              <div className="flex gap-2 sm:gap-3 md:gap-4 items-start">
+                <div className="bg-pp-green p-2 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl rounded-tr-none border border-pp-teal font-mono text-xs sm:text-sm flex-shrink-0">AI</div>
+                <p className="pt-1.5 sm:pt-2 text-sm sm:text-base">Routes request to housekeeping & confirms instantly via Voice or Text.</p>
               </div>
             </div>
-            
+
             {/* Mode Toggle Control */}
-            <div className="bg-white/10 p-4 rounded-xl border border-white/20">
-               <label className="text-xs uppercase tracking-widest font-bold text-pp-teal mb-3 block">Interaction Mode</label>
+            <div className="bg-white/10 p-3 sm:p-4 rounded-xl border border-white/20">
+               <label className="text-xs uppercase tracking-widest font-bold text-pp-teal mb-2 sm:mb-3 block">Interaction Mode</label>
                <div className="flex bg-black/20 p-1 rounded-lg">
-                  <button 
+                  <button
                     onClick={() => setUseVoiceMode(false)}
-                    className={`flex-1 py-3 rounded-md flex items-center justify-center gap-2 font-bold transition-all ${!useVoiceMode ? 'bg-white text-pp-green shadow-lg' : 'text-white/60 hover:text-white'}`}
+                    className={`flex-1 py-2.5 sm:py-3 rounded-md flex items-center justify-center gap-1.5 sm:gap-2 font-bold text-xs sm:text-sm transition-all ${!useVoiceMode ? 'bg-white text-pp-green shadow-lg' : 'text-white/60 hover:text-white'}`}
                   >
-                    <MessageSquare className="w-4 h-4" />
-                    Text Chat
+                    <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span className="hidden xs:inline">Text Chat</span>
+                    <span className="xs:hidden">Chat</span>
                   </button>
-                  <button 
+                  <button
                     onClick={() => setUseVoiceMode(true)}
-                    className={`flex-1 py-3 rounded-md flex items-center justify-center gap-2 font-bold transition-all ${useVoiceMode ? 'bg-pp-pink text-white shadow-lg' : 'text-white/60 hover:text-white'}`}
+                    className={`flex-1 py-2.5 sm:py-3 rounded-md flex items-center justify-center gap-1.5 sm:gap-2 font-bold text-xs sm:text-sm transition-all ${useVoiceMode ? 'bg-pp-pink text-white shadow-lg' : 'text-white/60 hover:text-white'}`}
                   >
-                    <Mic className="w-4 h-4" />
-                    Voice Call
-                    <span className="text-[10px] bg-white/20 px-1 rounded ml-1">NEW</span>
+                    <Mic className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span className="hidden xs:inline">Voice Call</span>
+                    <span className="xs:hidden">Voice</span>
+                    <span className="text-[9px] sm:text-[10px] bg-white/20 px-1 rounded ml-0.5 sm:ml-1">NEW</span>
                   </button>
                </div>
             </div>
