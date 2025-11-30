@@ -907,7 +907,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Padel & Palms Title - Top */}
-            <div className="flex flex-col items-center justify-start w-full max-w-lg">
+            <div className="flex flex-col items-center justify-start w-full max-w-lg -mt-16">
               <h1 className="font-serif font-black text-white leading-tight text-center relative animate-title-1" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.8)' }}>
                 <div className="text-5xl flex items-center gap-2 justify-center">
                   <span>Padel</span>

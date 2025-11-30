@@ -1,6 +1,35 @@
 import React, { useState } from 'react';
 import { PackageType, PackageDetails } from '../types';
-import { Check, ShoppingCart, X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
+
+// Custom Padel Racket Icon Component
+const PadelRacket: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    {/* Racket head - rounded rectangle */}
+    <rect x="6" y="2" width="12" height="14" rx="3" ry="3" />
+    {/* Holes pattern */}
+    <circle cx="9" cy="6" r="0.5" fill="currentColor" />
+    <circle cx="12" cy="6" r="0.5" fill="currentColor" />
+    <circle cx="15" cy="6" r="0.5" fill="currentColor" />
+    <circle cx="9" cy="9" r="0.5" fill="currentColor" />
+    <circle cx="12" cy="9" r="0.5" fill="currentColor" />
+    <circle cx="15" cy="9" r="0.5" fill="currentColor" />
+    <circle cx="9" cy="12" r="0.5" fill="currentColor" />
+    <circle cx="12" cy="12" r="0.5" fill="currentColor" />
+    <circle cx="15" cy="12" r="0.5" fill="currentColor" />
+    {/* Handle */}
+    <line x1="12" y1="16" x2="12" y2="22" strokeWidth="2.5" />
+    <line x1="10.5" y1="22" x2="13.5" y2="22" strokeWidth="2" />
+  </svg>
+);
 
 const PACKAGES: PackageDetails[] = [
   {
@@ -566,7 +595,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
+          <PadelRacket className="w-5 h-5 md:w-6 md:h-6" />
           <span className="hidden sm:inline">{isSubmitting ? 'Submitting...' : 'Start Your Transformation'}</span>
           <span className="sm:hidden">{isSubmitting ? 'Submitting...' : 'Get Started'}</span>
         </button>
