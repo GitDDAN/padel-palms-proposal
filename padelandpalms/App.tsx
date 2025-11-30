@@ -871,8 +871,8 @@ const App: React.FC = () => {
             }}
           ></div>
 
-          {/* Content Container - Centered */}
-          <div className="relative z-10 h-full flex flex-col justify-center items-center px-6 pt-16 pb-8 gap-8">
+          {/* Content Container - Space Between */}
+          <div className="relative z-10 h-full flex flex-col justify-between items-center px-6 pt-12 pb-8">
             <style>{`
               @keyframes fadeInScale {
                 0% {
@@ -907,7 +907,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Padel & Palms Title - Top */}
-            <div className="flex flex-col items-center justify-start w-full max-w-lg -mt-16">
+            <div className="flex flex-col items-center justify-start w-full max-w-lg mt-16">
               <h1 className="font-serif font-black text-white leading-tight text-center relative animate-title-1" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.8)' }}>
                 <div className="text-5xl flex items-center gap-2 justify-center">
                   <span>Padel</span>
@@ -917,8 +917,8 @@ const App: React.FC = () => {
               </h1>
             </div>
 
-            {/* Description and CTA */}
-            <div className="space-y-4 w-full max-w-lg animate-content">
+            {/* Description and CTA - Bottom Aligned */}
+            <div className="space-y-4 w-full max-w-lg animate-content mb-4">
               <h2 className="text-xl font-bold font-sans text-white tracking-wide text-center" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.95), 0 4px 20px rgba(0,0,0,0.9)' }}>
                 Your Complete Automation Solution
               </h2>
