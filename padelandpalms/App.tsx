@@ -106,7 +106,7 @@ const Panel: React.FC<{
       {nextId && (
         <button
           onClick={scrollToNext}
-          className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 group cursor-pointer z-20 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center gap-1 sm:gap-1.5 md:gap-2 group cursor-pointer z-20 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'} ${id === 'hero' ? 'hidden md:flex' : 'flex'}`}
           aria-label="Next Slide"
         >
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-pp-green shadow-sm mb-0.5 sm:mb-1">
