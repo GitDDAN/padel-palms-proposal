@@ -90,9 +90,135 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   convertPrice = (price) => `$${price}`
 }) => {
   const hasCustomServices = selectedServices.length > 0;
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate required fields
+    if (!email || !phone) {
+      setSubmitMessage({ type: 'error', text: 'Please fill in all required contact fields' });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      // Build the payload with clear labels
+      const selectedServiceDetails = SERVICES.filter(service => {
+        if (service.isBundle && service.subServices) {
+          return service.subServices.some(sub => selectedServices.includes(sub.id));
+        }
+        return selectedServices.includes(service.id);
+      }).map(service => {
+        if (service.isBundle && service.subServices) {
+          const selectedSubs = service.subServices.filter(sub => selectedServices.includes(sub.id));
+          return {
+            category: service.name,
+            options: selectedSubs.map(sub => ({
+              name: sub.name,
+              description: sub.description,
+              notes: serviceNotes[sub.id] || ''
+            }))
+          };
+        }
+        return {
+          category: service.name,
+          description: service.description,
+          notes: serviceNotes[service.id] || ''
+        };
+      });
+
+      const payload = {
+        email,
+        phone,
+        selectedServices: selectedServiceDetails,
+        serviceNotes,
+        totalMonthly: (() => {
+          let total = 0;
+          SERVICES.forEach(service => {
+            if (service.isBundle && service.subServices) {
+              if (service.dynamicPricing) {
+                const selectedCount = service.subServices.filter(sub =>
+                  selectedServices.includes(sub.id)
+                ).length;
+                if (selectedCount > 0) {
+                  service.subServices.forEach(sub => {
+                    if (selectedServices.includes(sub.id)) {
+                      const priceForCount = sub.pricePerCount?.[selectedCount] || sub.basePrice || sub.price || 0;
+                      total += priceForCount;
+                    }
+                  });
+                }
+              } else {
+                service.subServices.forEach(sub => {
+                  if (selectedServices.includes(sub.id)) {
+                    total += sub.price || 0;
+                  }
+                });
+              }
+            } else if (selectedServices.includes(service.id) && !service.isOneTime) {
+              total += service.price || 0;
+            }
+          });
+          return total;
+        })(),
+        totalOneTime: (() => {
+          let oneTimeFees = 0;
+          let setupFees = 0;
+          SERVICES.forEach(service => {
+            if (selectedServices.includes(service.id)) {
+              if (service.isOneTime) {
+                oneTimeFees += service.price || 0;
+              }
+              if (service.setupFee) {
+                setupFees += service.setupFee;
+              }
+            }
+          });
+          return oneTimeFees + setupFees;
+        })(),
+        currency,
+        submittedAt: new Date().toISOString()
+      };
+
+      // Send to Make.com webhook
+      const response = await fetch('https://hook.us2.make.com/kdhis7m0gvim2tdkeulflzcgr5f06shx', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          text: 'Thank you! Your request has been submitted successfully. We\'ll contact you shortly.'
+        });
+        // Reset form
+        setEmail('');
+        setPhone('');
+      } else {
+        throw new Error('Failed to submit form');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitMessage({
+        type: 'error',
+        text: 'There was an error submitting your request. Please try again or contact us directly.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="bg-white p-3 sm:p-4 md:p-8 rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl border-t-2 sm:border-t-4 md:border-t-8 border-pp-pink max-w-4xl mx-auto w-full">
+    <form onSubmit={handleSubmit} className="bg-white p-3 sm:p-4 md:p-8 rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl border-t-2 sm:border-t-4 md:border-t-8 border-pp-pink max-w-4xl mx-auto w-full">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-pp-green mb-1 sm:mb-2 text-center">Start Your Transformation</h2>
       <p className="text-center text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6 md:mb-8">
         {hasCustomServices ? 'Your custom package is ready below' : 'Build your perfect package by selecting the services you need'}
@@ -387,12 +513,64 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           })()}
         </div>
 
-        <button className="w-full md:w-auto flex items-center justify-center gap-2 md:gap-3 bg-pink-600 hover:bg-pink-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95">
+        {/* Contact Information Section */}
+        <div className="border-t border-gray-200 pt-6 mb-6">
+          <h3 className="text-lg md:text-xl font-bold text-pp-green mb-4">Your Contact Information</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                Phone Number <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                placeholder="+1 (555) 123-4567"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Submit Message */}
+        {submitMessage && (
+          <div className={`mb-4 p-4 rounded-lg ${
+            submitMessage.type === 'success'
+              ? 'bg-green-50 border-2 border-green-500 text-green-800'
+              : 'bg-red-50 border-2 border-red-500 text-red-800'
+          }`}>
+            <p className="font-semibold">{submitMessage.text}</p>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-full md:w-auto flex items-center justify-center gap-2 md:gap-3 bg-pink-600 hover:bg-pink-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95 ${
+            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
           <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-          <span className="hidden sm:inline">Start Your Transformation</span>
-          <span className="sm:hidden">Get Started</span>
+          <span className="hidden sm:inline">{isSubmitting ? 'Submitting...' : 'Start Your Transformation'}</span>
+          <span className="sm:hidden">{isSubmitting ? 'Submitting...' : 'Get Started'}</span>
         </button>
       </div>
-    </div>
+    </form>
   );
 };
