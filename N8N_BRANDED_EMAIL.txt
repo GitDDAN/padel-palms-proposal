@@ -1,0 +1,261 @@
+COPY THIS TO YOUR N8N EMAIL MESSAGE FIELD:
+================================================================================
+
+{{
+`<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Outfit', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #1a3c34;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fffbeb;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a3c34 0%, #14b8a6 100%);
+      color: white;
+      padding: 40px 30px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(26, 60, 52, 0.1);
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+    }
+    .header p {
+      margin: 8px 0 0 0;
+      opacity: 0.95;
+      font-size: 14px;
+      color: #f9a8d4;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border-left: 5px solid #f9a8d4;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .section h2 {
+      margin-top: 0;
+      color: #1a3c34;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 12px;
+      background: #fffbeb;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .info-label {
+      font-weight: 700;
+      color: #1a3c34;
+    }
+    .info-value {
+      color: #333;
+    }
+    .service-item {
+      background: #fffbeb;
+      padding: 18px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #f9a8d4;
+      transition: all 0.3s ease;
+    }
+    .service-header {
+      font-weight: 700;
+      color: #1a3c34;
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .service-header::before {
+      content: '🏓';
+      margin-right: 8px;
+    }
+    .service-desc {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .service-notes {
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      font-style: italic;
+      color: #1a3c34;
+      margin-top: 10px;
+      border-left: 3px solid #14b8a6;
+    }
+    .service-notes strong {
+      color: #14b8a6;
+    }
+    .sub-service {
+      margin-left: 20px;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      margin-top: 10px;
+      border: 1px solid #f9a8d4;
+    }
+    .sub-service strong {
+      color: #14b8a6;
+    }
+    .pricing {
+      background: linear-gradient(135deg, #14b8a6 0%, #1a3c34 100%);
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 20px;
+      color: white;
+      box-shadow: 0 4px 6px rgba(26, 60, 52, 0.2);
+    }
+    .pricing h3 {
+      margin-top: 0;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .price-label {
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+    .price-value {
+      font-size: 22px;
+      color: #f9a8d4;
+      font-weight: 700;
+    }
+    .total-row {
+      font-size: 28px;
+      font-weight: 800;
+      padding-top: 20px;
+      border-top: 2px solid #f9a8d4;
+      margin-top: 10px;
+    }
+    .total-row .price-label {
+      color: white;
+    }
+    .total-row .price-value {
+      color: #f9a8d4;
+    }
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #1a3c34;
+      font-size: 13px;
+      background: white;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .footer strong {
+      color: #14b8a6;
+    }
+    .checkmark {
+      color: #14b8a6;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🏓 New Padel & Palms Lead!</h1>
+    <p>📅 Received: ${new Date($json.body.submittedAt).toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })}</p>
+  </div>
+
+  <div class="section">
+    <h2>📧 Contact Information</h2>
+    <div class="info-grid">
+      <div class="info-label">✉️ Email:</div>
+      <div class="info-value"><strong>${$json.body.email}</strong></div>
+      <div class="info-label">📱 Phone:</div>
+      <div class="info-value"><strong>${$json.body.phone}</strong></div>
+      <div class="info-label">💱 Currency:</div>
+      <div class="info-value">${$json.body.currency}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Selected Services</h2>
+    ${$json.body.selectedServices && $json.body.selectedServices.length > 0
+      ? $json.body.selectedServices.map(service => {
+          if (service.options && service.options.length > 0) {
+            return `
+              <div class="service-item">
+                <div class="service-header">${service.category}</div>
+                ${service.options.map(option => `
+                  <div class="sub-service">
+                    <div><span class="checkmark">✓</span><strong>${option.name}</strong></div>
+                    <div class="service-desc">${option.description}</div>
+                    ${option.notes ? `<div class="service-notes"><strong>💬 Notes:</strong> ${option.notes}</div>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          } else {
+            return `
+              <div class="service-item">
+                <div class="service-header">${service.category}</div>
+                ${service.description ? `<div class="service-desc">${service.description}</div>` : ''}
+                ${service.notes ? `<div class="service-notes"><strong>💬 Notes:</strong> ${service.notes}</div>` : ''}
+              </div>
+            `;
+          }
+        }).join('')
+      : '<p style="color: #666; font-style: italic;">No services selected</p>'
+    }
+  </div>
+
+  <div class="pricing">
+    <h3>💰 Pricing Summary</h3>
+    <div class="price-row">
+      <div class="price-label">📅 Monthly Recurring:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalMonthly.toFixed(2)}/mo</div>
+    </div>
+    <div class="price-row">
+      <div class="price-label">⚡ One-Time Fees:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalOneTime.toFixed(2)}</div>
+    </div>
+    <div class="price-row total-row">
+      <div class="price-label">🎯 First Month Total:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${($json.body.totalMonthly + $json.body.totalOneTime).toFixed(2)}</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>🚀 Action Required!</strong></p>
+    <p>Please follow up with this customer within <strong>24 hours</strong> to convert this lead.</p>
+    <p style="margin-top: 15px; font-size: 11px; color: #999;">
+      This is an automated notification from your Padel & Palms booking system.
+    </p>
+  </div>
+</body>
+</html>`
+}}
+
+================================================================================

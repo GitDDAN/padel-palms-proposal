@@ -1,0 +1,159 @@
+COPY THIS TO GEMINI:
+================================================================================
+
+Create a Google Sheet to capture form submissions from a Padel & Palms booking website with the following structure:
+
+SHEET 1: "Form Submissions"
+----------------------------
+
+Column headers (create these exact columns in order):
+
+BASIC INFO (6 columns):
+1. Submission Date/Time (DateTime format)
+2. Email (Text)
+3. Phone (Text)
+4. Currency (Text - USD/EUR/GBP)
+5. Total Monthly (Number, 2 decimals)
+6. Total One-Time (Number, 2 decimals)
+
+WEBSITE SERVICE (3 columns):
+7. Website - Selected (Checkbox)
+8. Website - Notes (Text)
+9. Website - Price (Number) - $2500 one-time
+
+BOOKING AUTOMATION (6 columns):
+10. Booking - Villa Bookings (Checkbox)
+11. Booking - Villa Notes (Text)
+12. Booking - Villa Price (Number) - $299/mo
+13. Booking - Court Bookings (Checkbox)
+14. Booking - Court Notes (Text)
+15. Booking - Court Price (Number) - $149/mo
+
+NOTIFICATIONS SETUP - Dynamic Pricing (10 columns):
+16. Notifications - Flow 1 Selected (Checkbox) - Pre-Arrival Engagement
+17. Notifications - Flow 1 Notes (Text)
+18. Notifications - Flow 1 Price (Number) - varies by count
+19. Notifications - Flow 2 Selected (Checkbox) - Post-Game F&B Upsell
+20. Notifications - Flow 2 Notes (Text)
+21. Notifications - Flow 2 Price (Number) - varies by count
+22. Notifications - Flow 3 Selected (Checkbox) - Custom Flow
+23. Notifications - Flow 3 Notes (Text)
+24. Notifications - Flow 3 Price (Number) - varies by count
+25. Notifications - Count Selected (Number) - 1, 2, or 3
+
+AI RECEPTIONIST - Dynamic Pricing (10 columns):
+26. AI - Text Chat Selected (Checkbox)
+27. AI - Text Chat Notes (Text)
+28. AI - Text Chat Price (Number) - varies by count
+29. AI - Voice Calls Selected (Checkbox)
+30. AI - Voice Calls Notes (Text)
+31. AI - Voice Calls Price (Number) - varies by count
+32. AI - Email Support Selected (Checkbox)
+33. AI - Email Support Notes (Text)
+34. AI - Email Support Price (Number) - varies by count
+35. AI - Count Selected (Number) - 1, 2, or 3
+
+ADDITIONAL SERVICES (7 columns):
+36. Content Engine Selected (Checkbox) - 40 posts/week
+37. Content Engine Notes (Text)
+38. Content Engine Price (Number) - $159/mo
+39. Dashboard Selected (Checkbox)
+40. Dashboard Notes (Text)
+41. Dashboard Monthly Price (Number) - $212/mo
+42. Dashboard Setup Fee (Number) - $500 one-time
+
+RAW DATA (3 columns - for debugging):
+43. Selected Services JSON (Text)
+44. Service Notes JSON (Text)
+45. Raw Payload JSON (Text)
+
+FORMATTING REQUIREMENTS:
+- Row 1: Freeze header row and make it bold with light gray background
+- All columns: Apply filter
+- Sort by column 1 (Submission Date/Time) newest first
+- Number columns: Format with $ currency symbol and 2 decimal places
+- DateTime column: Format as "yyyy-mm-dd hh:mm:ss"
+
+CONDITIONAL FORMATTING:
+- Highlight entire row light green if Total Monthly (column 5) > $500
+- Highlight entire row light blue if Total One-Time (column 6) > $2000
+- Highlight entire row light yellow if Submission Date/Time (column 1) is within last 24 hours
+
+SHEET 2: "Dashboard"
+--------------------
+
+Create a summary dashboard with:
+1. Total Submissions: Count of all rows
+2. Average Monthly Value: Average of "Total Monthly" column
+3. Average One-Time Value: Average of "Total One-Time" column
+4. Total Revenue Potential: Sum of all Monthly + One-Time
+
+Service Popularity (show count for each):
+- Website builds selected
+- Villa bookings selected
+- Court bookings selected
+- Notification flows (total count)
+- AI chat selected
+- AI voice selected
+- AI email selected
+- Content engine selected
+- Dashboard selected
+
+Monthly Revenue Breakdown:
+- From Website: Count × Price
+- From Villa Bookings: Count × $299
+- From Court Bookings: Count × $149
+- From Notifications: Sum of all notification prices
+- From AI Services: Sum of all AI prices
+- From Content Engine: Count × $159
+- From Dashboard: Count × $212
+
+PRICING REFERENCE FOR DATA VALIDATION:
+Notification Flows (dynamic):
+- 1 flow selected = $88.50/month each
+- 2 flows selected = $75/month each
+- 3 flows selected = $62/month each
+
+AI Receptionist (dynamic):
+Text Chat:
+- 1 option selected = $59/month
+- 2 options selected = $50/month
+- 3 options selected = $41/month
+
+Voice & Email:
+- 1 option selected = $177/month
+- 2 options selected = $150/month
+- 3 options selected = $124/month
+
+Fixed Prices:
+- Website: $2500 (one-time)
+- Villa Bookings: $299/month
+- Court Bookings: $149/month
+- Content Engine: $159/month
+- Dashboard: $212/month + $500 setup fee (one-time)
+
+EXAMPLE DATA ROW:
+Submission Date/Time: 2025-11-30 14:30:00
+Email: owner@padelclub.com
+Phone: +34 123 456 789
+Currency: USD
+Total Monthly: 507
+Total One-Time: 2500
+Website - Selected: TRUE
+Website - Notes: Need integration with existing booking system
+Website - Price: 2500
+Booking - Villa Bookings: TRUE
+Booking - Villa Notes: Using Booking.com and Airbnb
+Booking - Villa Price: 299
+Booking - Court Bookings: TRUE
+Booking - Court Notes: Already using Playtomic
+Booking - Court Price: 149
+[...all other fields as FALSE or empty...]
+AI - Text Chat Selected: TRUE
+AI - Text Chat Notes: Need Spanish and English support
+AI - Text Chat Price: 59
+AI - Count Selected: 1
+
+Please create this Google Sheet with all the specified columns, formatting, and dashboard.
+
+================================================================================

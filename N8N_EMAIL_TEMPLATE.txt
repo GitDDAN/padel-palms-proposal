@@ -1,0 +1,157 @@
+COPY THIS TO N8N MESSAGE FIELD:
+================================================================================
+
+{{
+`<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 5px 0 0 0; opacity: 0.9; }
+    .section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea; }
+    .section h2 { margin-top: 0; color: #667eea; font-size: 20px; }
+    .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 10px; }
+    .info-label { font-weight: bold; color: #555; }
+    .info-value { color: #333; }
+    .service-item { background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e0e0e0; }
+    .service-header { font-weight: bold; color: #667eea; font-size: 16px; margin-bottom: 8px; }
+    .service-desc { color: #666; font-size: 14px; margin-bottom: 8px; }
+    .service-notes { background: #fff3cd; padding: 10px; border-radius: 4px; font-style: italic; color: #856404; margin-top: 8px; }
+    .sub-service { margin-left: 20px; padding: 10px; background: #f8f9fa; border-radius: 4px; margin-top: 8px; }
+    .pricing { background: #d4edda; padding: 20px; border-radius: 8px; margin-top: 20px; }
+    .pricing h3 { margin-top: 0; color: #155724; }
+    .price-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #c3e6cb; }
+    .price-label { font-weight: bold; }
+    .price-value { font-size: 20px; color: #155724; }
+    .total-row { font-size: 24px; font-weight: bold; padding-top: 15px; border-top: 2px solid #155724; }
+    .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🏓 New Padel & Palms Submission!</h1>
+    <p>Received: ${new Date($json.body.submittedAt).toLocaleString()}</p>
+  </div>
+
+  <div class="section">
+    <h2>📧 Contact Information</h2>
+    <div class="info-grid">
+      <div class="info-label">Email:</div>
+      <div class="info-value">${$json.body.email}</div>
+      <div class="info-label">Phone:</div>
+      <div class="info-value">${$json.body.phone}</div>
+      <div class="info-label">Currency:</div>
+      <div class="info-value">${$json.body.currency}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Selected Services</h2>
+    ${$json.body.selectedServices && $json.body.selectedServices.length > 0
+      ? $json.body.selectedServices.map(service => {
+          if (service.options && service.options.length > 0) {
+            // Bundle service with sub-options
+            return `
+              <div class="service-item">
+                <div class="service-header">${service.category}</div>
+                ${service.options.map(option => `
+                  <div class="sub-service">
+                    <strong>✓ ${option.name}</strong>
+                    <div class="service-desc">${option.description}</div>
+                    ${option.notes ? `<div class="service-notes"><strong>Notes:</strong> ${option.notes}</div>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          } else {
+            // Regular service
+            return `
+              <div class="service-item">
+                <div class="service-header">✓ ${service.category}</div>
+                ${service.description ? `<div class="service-desc">${service.description}</div>` : ''}
+                ${service.notes ? `<div class="service-notes"><strong>Notes:</strong> ${service.notes}</div>` : ''}
+              </div>
+            `;
+          }
+        }).join('')
+      : '<p>No services selected</p>'
+    }
+  </div>
+
+  <div class="pricing">
+    <h3>💰 Pricing Summary</h3>
+    <div class="price-row">
+      <div class="price-label">Monthly Recurring:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalMonthly.toFixed(2)}/month</div>
+    </div>
+    <div class="price-row">
+      <div class="price-label">One-Time Fees:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalOneTime.toFixed(2)}</div>
+    </div>
+    <div class="price-row total-row">
+      <div class="price-label">First Month Total:</div>
+      <div class="price-value">${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${($json.body.totalMonthly + $json.body.totalOneTime).toFixed(2)}</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>This is an automated notification from your Padel & Palms booking system.</p>
+    <p>Please follow up with the customer within 24 hours.</p>
+  </div>
+</body>
+</html>`
+}}
+
+================================================================================
+
+ALTERNATIVE: SIMPLER VERSION (if the above is too complex)
+================================================================================
+
+{{
+`<h2>🏓 New Padel & Palms Form Submission</h2>
+
+<h3>📧 Contact Information</h3>
+<ul>
+  <li><strong>Email:</strong> ${$json.body.email}</li>
+  <li><strong>Phone:</strong> ${$json.body.phone}</li>
+  <li><strong>Submitted:</strong> ${new Date($json.body.submittedAt).toLocaleString()}</li>
+</ul>
+
+<h3>🎯 Selected Services</h3>
+${$json.body.selectedServices.map(service => {
+  if (service.options) {
+    return `<div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+      <strong style="color: #667eea;">${service.category}:</strong>
+      <ul>
+        ${service.options.map(opt => `
+          <li>
+            <strong>${opt.name}</strong><br>
+            ${opt.description}<br>
+            ${opt.notes ? `<em style="color: #666;">Notes: ${opt.notes}</em>` : ''}
+          </li>
+        `).join('')}
+      </ul>
+    </div>`;
+  } else {
+    return `<div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+      <strong style="color: #667eea;">${service.category}</strong><br>
+      ${service.description || ''}<br>
+      ${service.notes ? `<em style="color: #666;">Notes: ${service.notes}</em>` : ''}
+    </div>`;
+  }
+}).join('')}
+
+<h3>💰 Pricing</h3>
+<div style="background: #d4edda; padding: 20px; border-radius: 5px;">
+  <p><strong>Monthly Recurring:</strong> $${$json.body.totalMonthly.toFixed(2)}/month</p>
+  <p><strong>One-Time Fees:</strong> $${$json.body.totalOneTime.toFixed(2)}</p>
+  <p style="font-size: 20px;"><strong>First Month Total:</strong> $${($json.body.totalMonthly + $json.body.totalOneTime).toFixed(2)}</p>
+</div>
+
+<hr>
+<p style="color: #999; font-size: 12px;">Follow up with this customer within 24 hours.</p>`
+}}
+
+================================================================================

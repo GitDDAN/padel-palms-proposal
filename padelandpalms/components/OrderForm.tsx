@@ -215,8 +215,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         submittedAt: new Date().toISOString()
       };
 
-      // Send to Make.com webhook
-      const response = await fetch('https://hook.us2.make.com/kdhis7m0gvim2tdkeulflzcgr5f06shx', {
+      // Send to n8n webhook
+      const response = await fetch('https://build8.app.n8n.cloud/webhook/eb767d8b-80e1-4eee-9e1d-442e328d6546', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -315,7 +315,14 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   <div className="space-y-1.5 sm:space-y-2">
                     {/* Select All Button */}
                     <button
-                      onClick={() => !isDisabled && onToggleService && onToggleService(service.id)}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!isDisabled && onToggleService) {
+                          onToggleService(service.id);
+                        }
+                      }}
                       disabled={isDisabled}
                       className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-md sm:rounded-lg text-xs sm:text-sm font-bold transition-all ${
                         allSubsSelected
@@ -325,7 +332,11 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                           : 'bg-pp-green text-white hover:bg-pp-green/90'
                       }`}
                     >
-                      {allSubsSelected ? '✓ All Selected' : 'Select Both'}
+                      {allSubsSelected
+                        ? '✓ All Selected'
+                        : service.subServices && service.subServices.length === 2
+                          ? 'Select Both'
+                          : `Select All ${service.subServices?.length || ''}`}
                     </button>
 
                     {/* Dynamic Pricing Info */}
@@ -456,10 +467,11 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         </div>
       </div>
 
-      <div className="border-t border-gray-100 pt-4 md:pt-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
-        <div className="w-full md:w-auto">
+      {/* Pricing Summary Section */}
+      <div className="border-t border-gray-100 pt-6 mb-6">
+        <div className="text-center">
           {/* Monthly Total */}
-          <div className="mb-3 text-center md:text-left">
+          <div className="mb-4">
             <span className="block text-gray-500 text-xs md:text-sm uppercase tracking-wide">Monthly Total</span>
             <span className="text-3xl md:text-4xl font-bold text-pp-green">
               {convertPrice(
@@ -468,11 +480,9 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   SERVICES.forEach(service => {
                     if (service.isBundle && service.subServices) {
                       if (service.dynamicPricing) {
-                        // Count selected sub-services for dynamic pricing
                         const selectedCount = service.subServices.filter(sub =>
                           selectedServices.includes(sub.id)
                         ).length;
-
                         if (selectedCount > 0) {
                           service.subServices.forEach(sub => {
                             if (selectedServices.includes(sub.id)) {
@@ -506,7 +516,6 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           {(() => {
             let oneTimeFees = 0;
             let setupFees = 0;
-
             SERVICES.forEach(service => {
               if (selectedServices.includes(service.id)) {
                 if (service.isOneTime) {
@@ -517,18 +526,16 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 }
               }
             });
-
             const totalOneTime = oneTimeFees + setupFees;
-
             return totalOneTime > 0 ? (
-              <div className="mt-3 pt-3 border-t border-gray-200">
+              <div className="pt-4 border-t border-gray-200 inline-block">
                 <span className="block text-gray-500 text-xs uppercase tracking-wide">Plus One-Time Fees</span>
                 <span className="text-2xl font-bold text-pp-teal">
                   {convertPrice(totalOneTime, currency)}
                 </span>
                 {oneTimeFees > 0 && setupFees > 0 && (
                   <p className="text-xs text-gray-500 mt-1">
-                    Website build ({convertPrice(oneTimeFees, currency)}) + Setup fees ({convertPrice(setupFees, currency)})
+                    Website ({convertPrice(oneTimeFees, currency)}) + Setup ({convertPrice(setupFees, currency)})
                   </p>
                 )}
                 {oneTimeFees > 0 && setupFees === 0 && (
@@ -541,63 +548,65 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             ) : null;
           })()}
         </div>
+      </div>
 
-        {/* Contact Information Section */}
-        <div className="border-t border-gray-200 pt-6 mb-6">
-          <h3 className="text-lg md:text-xl font-bold text-pp-green mb-4">Your Contact Information</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                Email Address <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                placeholder="your@email.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
-                Phone Number <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                placeholder="+1 (555) 123-4567"
-              />
-            </div>
+      {/* Contact Information Section */}
+      <div className="border-t border-gray-200 pt-6 mb-6">
+        <h3 className="text-lg md:text-xl font-bold text-pp-green mb-4 text-center">Your Contact Information</h3>
+        <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div>
+            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              Email Address <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+              placeholder="your@email.com"
+            />
+          </div>
+          <div>
+            <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+              Phone Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+              placeholder="+1 (555) 123-4567"
+            />
           </div>
         </div>
+      </div>
 
-        {/* Submit Message */}
-        {submitMessage && (
-          <div className={`mb-4 p-4 rounded-lg ${
-            submitMessage.type === 'success'
-              ? 'bg-green-50 border-2 border-green-500 text-green-800'
-              : 'bg-red-50 border-2 border-red-500 text-red-800'
-          }`}>
-            <p className="font-semibold">{submitMessage.text}</p>
-          </div>
-        )}
+      {/* Submit Message */}
+      {submitMessage && (
+        <div className={`mb-4 p-4 rounded-lg max-w-2xl mx-auto ${
+          submitMessage.type === 'success'
+            ? 'bg-green-50 border-2 border-green-500 text-green-800'
+            : 'bg-red-50 border-2 border-red-500 text-red-800'
+        }`}>
+          <p className="font-semibold text-center">{submitMessage.text}</p>
+        </div>
+      )}
 
+      {/* Submit Button */}
+      <div className="flex justify-center">
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full md:w-auto flex items-center justify-center gap-2 md:gap-3 bg-pink-600 hover:bg-pink-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95 ${
+          className={`flex items-center justify-center gap-3 bg-pink-600 hover:bg-pink-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95 ${
             isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          <PadelRacket className="w-5 h-5 md:w-6 md:h-6" />
-          <span className="hidden sm:inline">{isSubmitting ? 'Submitting...' : 'Start Your Transformation'}</span>
-          <span className="sm:hidden">{isSubmitting ? 'Submitting...' : 'Get Started'}</span>
+          <PadelRacket className="w-6 h-6" />
+          <span>{isSubmitting ? 'Submitting...' : 'Start Your Transformation'}</span>
         </button>
       </div>
     </form>

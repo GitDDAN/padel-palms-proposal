@@ -1,0 +1,75 @@
+{
+  "email": "owner@padelclub.com",
+  "phone": "+34 123 456 789",
+  "selectedServices": [
+    {
+      "category": "Custom Website Build",
+      "description": "Fully branded design • Villa booking pages • Court reservations • F&B menu & bar • Photo gallery • Community & events • Blog • Location & directions • Guest reviews • Contact forms • Mobile-responsive",
+      "notes": "Need integration with existing booking system"
+    },
+    {
+      "category": "Booking Automation & Sync",
+      "options": [
+        {
+          "name": "Villa Bookings",
+          "description": "Sync all OTA platforms to your master system automatically",
+          "notes": "Using Booking.com and Airbnb"
+        },
+        {
+          "name": "Court Bookings",
+          "description": "Real-time Playtomic & website sync. Zero double bookings.",
+          "notes": "Already using Playtomic"
+        }
+      ]
+    },
+    {
+      "category": "Notifications Setup",
+      "options": [
+        {
+          "name": "Notification Flow 1",
+          "description": "Pre-built template: Guest Pre-Arrival Engagement (customizable triggers available)",
+          "notes": "Send 2 days before arrival"
+        }
+      ]
+    },
+    {
+      "category": "AI Receptionist",
+      "options": [
+        {
+          "name": "Text Chat",
+          "description": "24/7 intelligent text responses + staff notifications when needed",
+          "notes": "Need Spanish and English support"
+        },
+        {
+          "name": "Voice Calls",
+          "description": "Real-time voice support that sounds human + staff alerts",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "category": "Brand Content Engine",
+      "description": "Stay top-of-mind with 40 posts/week across all platforms. Zero effort.",
+      "notes": "Focus on Instagram and Facebook"
+    },
+    {
+      "category": "Daily Pulse Dashboard",
+      "description": "See your entire operation at a glance. Catch issues before they become problems.",
+      "notes": ""
+    }
+  ],
+  "serviceNotes": {
+    "website": "Need integration with existing booking system",
+    "booking-villas": "Using Booking.com and Airbnb",
+    "booking-courts": "Already using Playtomic",
+    "notification-1": "Send 2 days before arrival",
+    "ai-chat": "Need Spanish and English support",
+    "ai-voice": "",
+    "content": "Focus on Instagram and Facebook",
+    "dashboard": ""
+  },
+  "totalMonthly": 808,
+  "totalOneTime": 3000,
+  "currency": "USD",
+  "submittedAt": "2025-11-30T14:30:00.000Z"
+}
