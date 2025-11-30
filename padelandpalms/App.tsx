@@ -194,6 +194,7 @@ const RollingBallLoop: React.FC = () => {
 
 const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?: () => void }> = ({ text }) => {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [isClosed, setIsClosed] = React.useState(false);
   const noteRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -211,6 +212,8 @@ const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?
 
     return () => observer.disconnect();
   }, []);
+
+  if (isClosed) return null;
 
   return (
     <div ref={noteRef} className="hidden lg:block absolute bottom-8 right-8 z-10 max-w-xs">
@@ -241,8 +244,17 @@ const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?
           animation: isVisible ? 'padelSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' : 'none'
         }}
       >
+        {/* Close Button */}
+        <button
+          onClick={() => setIsClosed(true)}
+          className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200/50 hover:bg-gray-300/70 transition-colors z-20 group"
+          aria-label="Close note"
+        >
+          <X className="w-4 h-4 text-gray-600 group-hover:text-gray-800" />
+        </button>
+
         <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-yellow-100/60 rounded-full blur-sm"></div>
-        <p className="text-lg text-gray-700 leading-relaxed relative z-10" style={{ fontFamily: '"Caveat", "Comic Sans MS", cursive' }}>
+        <p className="text-lg text-gray-700 leading-relaxed relative z-10 pr-6" style={{ fontFamily: '"Caveat", "Comic Sans MS", cursive' }}>
           {text}
         </p>
         <div className="absolute bottom-1 right-3 text-2xl text-pp-pink/40">~</div>
@@ -859,8 +871,8 @@ const App: React.FC = () => {
             }}
           ></div>
 
-          {/* Content Container - Title top, CTA bottom */}
-          <div className="relative z-10 h-full flex flex-col justify-between items-center px-6 pt-24 pb-8">
+          {/* Content Container - Centered */}
+          <div className="relative z-10 h-full flex flex-col justify-center items-center px-6 pt-16 pb-8 gap-8">
             <style>{`
               @keyframes fadeInScale {
                 0% {
@@ -905,8 +917,8 @@ const App: React.FC = () => {
               </h1>
             </div>
 
-            {/* Description and CTA - Bottom */}
-            <div className="space-y-4 w-full max-w-lg animate-content mb-4">
+            {/* Description and CTA */}
+            <div className="space-y-4 w-full max-w-lg animate-content">
               <h2 className="text-xl font-bold font-sans text-white tracking-wide text-center" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.95), 0 4px 20px rgba(0,0,0,0.9)' }}>
                 Your Complete Automation Solution
               </h2>
