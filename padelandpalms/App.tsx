@@ -941,7 +941,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Desktop Layout - Original overlay style */}
-        <div className="hidden md:block">
+        <div className="hidden md:block absolute inset-0">
           {/* Badge positioned at top */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-20 top-48 md:top-60">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 md:px-6 md:py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl text-sm md:text-base">
@@ -950,25 +950,26 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative z-10 text-center max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up pt-60 md:pt-80 px-4">
-            <div className="h-20 md:h-32"></div>
+          <div className="absolute inset-0 flex items-end justify-center">
+            <div className="relative z-10 text-center max-w-5xl w-full space-y-6 md:space-y-8 animate-fade-in-up pb-24 md:pb-32 px-4">
 
-            <h2 className="text-2xl md:text-4xl font-bold font-sans text-white tracking-wide mt-3 md:mt-4 drop-shadow-lg">
-              Padel & Palms: Your Complete Automation Solution
-            </h2>
-            <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans text-center drop-shadow-md leading-relaxed">
-              Transform your resort operations with seamless booking automation, guest engagement, and AI-powered support. From villa reservations to court bookings—all in one effortless system.
-            </p>
+              <h2 className="text-2xl md:text-4xl font-bold font-sans text-white tracking-wide mt-3 md:mt-4 drop-shadow-lg">
+                Padel & Palms: Your Complete Automation Solution
+              </h2>
+              <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans text-center drop-shadow-md leading-relaxed">
+                Transform your resort operations with seamless booking automation, guest engagement, and AI-powered support. From villa reservations to court bookings—all in one effortless system.
+              </p>
 
-            {/* Review Proposal CTA - Scrolls to first section */}
-            <div className="mt-6 md:mt-12 text-center">
-              <button
-                onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                className="bg-pink-600 hover:bg-pink-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
-              >
-                See How It Works
-              </button>
-              <p className="mt-4 text-sm text-gray-300 text-center">Discover the complete automation system built for Padel & Palms</p>
+              {/* Review Proposal CTA - Scrolls to first section */}
+              <div className="mt-6 md:mt-12 text-center">
+                <button
+                  onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="bg-pink-600 hover:bg-pink-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
+                >
+                  See How It Works
+                </button>
+                <p className="mt-4 text-sm text-gray-300 text-center">Discover the complete automation system built for Padel & Palms</p>
+              </div>
             </div>
           </div>
         </div>
