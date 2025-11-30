@@ -275,25 +275,25 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
   return (
     <>
       {/* Desktop Navigation - Left side vertical */}
-      <div className="hidden md:flex fixed top-12 left-12 z-30 flex-col gap-3">
+      <div className="hidden lg:flex fixed top-8 left-6 xl:left-12 z-30 flex-col gap-2 xl:gap-3">
       {slides.map((slide) => (
         <button
           key={slide.id}
           onClick={() => handleSlideClick(slide.id)}
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2 xl:gap-3 group"
           title={`Go to slide ${slide.number}`}
         >
           <div
-            className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[10px] md:text-sm transition-all shadow-lg ${
+            className={`w-10 h-10 xl:w-12 xl:h-12 rounded-full flex items-center justify-center font-bold text-xs xl:text-sm transition-all shadow-lg ${
               currentSlide === slide.number
-                ? 'bg-pp-green text-white md:scale-110 border-2 border-pp-pink'
+                ? 'bg-pp-green text-white scale-110 border-2 border-pp-pink'
                 : 'bg-white backdrop-blur-sm text-pp-green group-hover:bg-pp-green group-hover:text-white group-hover:scale-105 border-2 border-pp-green/30'
             }`}
           >
             {slide.number}
           </div>
           <span
-            className={`hidden md:block text-2xl transition-all whitespace-nowrap ${
+            className={`text-xl xl:text-2xl transition-all whitespace-nowrap ${
               currentSlide === slide.number
                 ? (isDarkBackground ? 'text-white' : 'text-pp-green') + ' font-extrabold scale-105'
                 : (isDarkBackground ? 'text-white' : 'text-gray-700') + ' font-bold group-hover:text-pp-pink group-hover:scale-105'
@@ -310,17 +310,17 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
       ))}
       </div>
 
-      {/* Mobile Navigation - Bottom bar horizontal */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-pp-pink/30 z-30 shadow-2xl">
-        <div className="flex justify-around items-center py-2 px-2 overflow-x-auto">
+      {/* Tablet Navigation - Top bar horizontal */}
+      <div className="hidden md:flex lg:hidden fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b-2 border-pp-pink/30 z-30 shadow-lg">
+        <div className="flex justify-center items-center py-3 px-4 gap-3 overflow-x-auto w-full">
           {slides.map((slide) => (
             <button
               key={slide.id}
               onClick={() => handleSlideClick(slide.id)}
-              className="flex flex-col items-center gap-0.5 min-w-[50px] group"
+              className="flex items-center gap-2 group flex-shrink-0"
             >
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[10px] transition-all shadow-md ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all shadow-md ${
                   currentSlide === slide.number
                     ? 'bg-pp-green text-white scale-110 border-2 border-pp-pink'
                     : 'bg-white text-pp-green group-hover:bg-pp-green group-hover:text-white border-2 border-pp-green/30'
@@ -328,8 +328,49 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
               >
                 {slide.number}
               </div>
-              <span className="text-[8px] text-gray-600 font-semibold truncate max-w-[50px]">
-                {slide.title.split(' ')[0]}
+              <span
+                className={`text-sm font-bold transition-all whitespace-nowrap ${
+                  currentSlide === slide.number
+                    ? 'text-pp-green scale-105'
+                    : 'text-gray-700 group-hover:text-pp-pink'
+                }`}
+              >
+                {slide.title}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile Navigation - Bottom bar horizontal with improved touch targets */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-sm border-t-2 border-pp-pink/30 z-30 shadow-2xl">
+        <div className="flex justify-start items-center py-2.5 px-2 gap-1 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <style>{`
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          {slides.map((slide) => (
+            <button
+              key={slide.id}
+              onClick={() => handleSlideClick(slide.id)}
+              className="flex flex-col items-center justify-center gap-1 min-w-[60px] px-2 py-1 group flex-shrink-0 active:scale-95 transition-transform"
+            >
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all shadow-md ${
+                  currentSlide === slide.number
+                    ? 'bg-pp-green text-white scale-110 border-2 border-pp-pink'
+                    : 'bg-white text-pp-green active:bg-pp-green active:text-white border-2 border-pp-green/30'
+                }`}
+              >
+                {slide.number}
+              </div>
+              <span className={`text-[9px] font-semibold truncate max-w-[56px] transition-colors ${
+                currentSlide === slide.number
+                  ? 'text-pp-green'
+                  : 'text-gray-600'
+              }`}>
+                {slide.title}
               </span>
             </button>
           ))}
