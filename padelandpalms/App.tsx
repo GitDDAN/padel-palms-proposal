@@ -99,7 +99,7 @@ const Panel: React.FC<{
   return (
     <section
       id={id}
-      className={`min-h-screen w-full flex flex-col justify-center items-center p-4 pb-24 sm:p-6 md:p-12 relative border-b-4 md:border-b-0 border-pp-pink/20 ${className}`}
+      className={`min-h-screen w-full flex flex-col justify-center items-center p-4 pb-24 sm:p-6 md:p-12 md:pt-20 lg:pt-12 lg:pl-64 xl:pl-72 relative border-b-4 md:border-b-0 border-pp-pink/20 ${className}`}
       style={style}
     >
       {children}
@@ -213,7 +213,7 @@ const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?
   }, []);
 
   return (
-    <div ref={noteRef} className="hidden md:block absolute bottom-8 left-8 z-50 max-w-xs">
+    <div ref={noteRef} className="hidden md:block absolute bottom-8 left-8 lg:left-72 xl:left-80 z-10 max-w-xs">
       <style>{`
         @keyframes padelSlideIn {
           0% {
@@ -275,7 +275,7 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
   return (
     <>
       {/* Desktop Navigation - Left side vertical */}
-      <div className="hidden lg:flex fixed top-8 left-6 xl:left-12 z-30 flex-col gap-2 xl:gap-3">
+      <div className="hidden lg:flex fixed top-8 left-6 xl:left-12 z-50 flex-col gap-2 xl:gap-3">
       {slides.map((slide) => (
         <button
           key={slide.id}
@@ -311,7 +311,7 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
       </div>
 
       {/* Tablet Navigation - Top bar horizontal */}
-      <div className="hidden md:flex lg:hidden fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b-2 border-pp-pink/30 z-30 shadow-lg">
+      <div className="hidden md:flex lg:hidden fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b-2 border-pp-pink/30 z-50 shadow-lg">
         <div className="flex justify-center items-center py-3 px-4 gap-3 overflow-x-auto w-full">
           {slides.map((slide) => (
             <button
@@ -343,7 +343,7 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
       </div>
 
       {/* Mobile Navigation - Bottom bar horizontal with improved touch targets */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-sm border-t-2 border-pp-pink/30 z-30 shadow-2xl">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-sm border-t-2 border-pp-pink/30 z-50 shadow-2xl">
         <div className="flex justify-start items-center py-2.5 px-2 gap-1 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style>{`
             .scrollbar-hide::-webkit-scrollbar {
