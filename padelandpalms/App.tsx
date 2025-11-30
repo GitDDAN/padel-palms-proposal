@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { 
-  Smartphone, 
-  Calendar, 
-  Globe, 
-  MessageCircle, 
-  Zap, 
-  TrendingUp, 
-  BarChart3, 
+import {
+  Smartphone,
+  Calendar,
+  Globe,
+  MessageCircle,
+  Zap,
+  TrendingUp,
+  BarChart3,
   ArrowDown,
   CheckCircle2,
   Instagram,
   Facebook,
   MapPin,
   Mic,
-  MessageSquare
+  MessageSquare,
+  HelpCircle,
+  X
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { GeminiChat } from './components/GeminiChat';
@@ -54,7 +56,7 @@ const PadelLogo = () => (
 );
 
 const BrandLogo: React.FC<{ name: string; color: string; textColor?: string }> = ({ name, color, textColor = 'text-white' }) => (
-  <div className={`px-4 py-2 rounded-lg font-bold text-lg shadow-sm ${color} ${textColor} flex items-center justify-center transform hover:scale-105 transition-transform`}>
+  <div className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-md sm:rounded-lg font-bold text-xs sm:text-sm md:text-lg shadow-sm ${color} ${textColor} flex items-center justify-center transform hover:scale-105 transition-transform`}>
     {name}
   </div>
 );
@@ -97,26 +99,26 @@ const Panel: React.FC<{
   return (
     <section
       id={id}
-      className={`min-h-screen w-full flex flex-col justify-center items-center p-6 md:p-12 relative ${className}`}
+      className={`min-h-screen w-full flex flex-col justify-center items-center p-4 pb-24 sm:p-6 md:p-12 relative border-b-4 md:border-b-0 border-pp-pink/20 ${className}`}
       style={style}
     >
       {children}
       {nextId && (
         <button
           onClick={scrollToNext}
-          className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 group cursor-pointer z-30 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 group cursor-pointer z-30 transition-all duration-500 ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           aria-label="Next Slide"
         >
-          <span className="text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-2 py-1 rounded text-pp-green shadow-sm mb-1">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-pp-green shadow-sm mb-0.5 sm:mb-1">
             Next Step
           </span>
           {/* Tennis Ball Scroll Icon */}
-          <div className="w-10 h-10 rounded-full bg-[#DFFF00] shadow-[0_0_10px_rgba(204,255,0,0.4)] flex items-center justify-center relative overflow-hidden transition-transform hover:scale-110 scroll-arrow border border-black/5">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#DFFF00] shadow-[0_0_10px_rgba(204,255,0,0.4)] flex items-center justify-center relative overflow-hidden transition-transform hover:scale-110 scroll-arrow border border-black/5">
             {/* Seams of the ball */}
             <div className="absolute w-14 h-14 rounded-full border-[2px] border-white/60 -top-7 -left-7 pointer-events-none"></div>
             <div className="absolute w-14 h-14 rounded-full border-[2px] border-white/60 -bottom-7 -right-7 pointer-events-none"></div>
 
-            <ArrowDown className="w-5 h-5 text-white drop-shadow-md relative z-10" />
+            <ArrowDown className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white drop-shadow-md relative z-10" />
           </div>
         </button>
       )}
@@ -127,7 +129,7 @@ const Panel: React.FC<{
 
 const RollingBallLoop: React.FC = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden z-50">
+    <div className="hidden md:block absolute inset-0 pointer-events-none overflow-hidden z-50">
       <style>{`
         @keyframes ballRollLoop {
           0% {
@@ -190,7 +192,7 @@ const RollingBallLoop: React.FC = () => {
   );
 };
 
-const HandwrittenNote: React.FC<{ text: string }> = ({ text }) => {
+const HandwrittenNote: React.FC<{ text: string; showOnMobile?: boolean; onClose?: () => void }> = ({ text }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const noteRef = React.useRef<HTMLDivElement>(null);
 
@@ -211,7 +213,7 @@ const HandwrittenNote: React.FC<{ text: string }> = ({ text }) => {
   }, []);
 
   return (
-    <div ref={noteRef} className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-40 max-w-[280px] md:max-w-xs">
+    <div ref={noteRef} className="hidden md:block absolute bottom-8 left-8 z-50 max-w-xs">
       <style>{`
         @keyframes padelSlideIn {
           0% {
@@ -232,7 +234,7 @@ const HandwrittenNote: React.FC<{ text: string }> = ({ text }) => {
         }
       `}</style>
       <div
-        className={`bg-yellow-50 p-4 md:p-6 shadow-xl hover:rotate-0 transition-transform duration-300 relative ${isVisible ? '' : 'opacity-0'}`}
+        className={`bg-yellow-50 p-6 shadow-xl hover:rotate-0 transition-transform duration-300 relative ${isVisible ? '' : 'opacity-0'}`}
         style={{
           clipPath: 'polygon(0% 2%, 2% 0%, 98% 1%, 100% 3%, 99% 97%, 98% 100%, 2% 99%, 0% 98%)',
           fontFamily: '"Caveat", "Comic Sans MS", cursive',
@@ -240,7 +242,7 @@ const HandwrittenNote: React.FC<{ text: string }> = ({ text }) => {
         }}
       >
         <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-yellow-100/60 rounded-full blur-sm"></div>
-        <p className="text-sm md:text-lg text-gray-700 leading-relaxed relative z-10" style={{ fontFamily: '"Caveat", "Comic Sans MS", cursive' }}>
+        <p className="text-lg text-gray-700 leading-relaxed relative z-10" style={{ fontFamily: '"Caveat", "Comic Sans MS", cursive' }}>
           {text}
         </p>
         <div className="absolute bottom-1 right-3 text-2xl text-pp-pink/40">~</div>
@@ -271,7 +273,9 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
   const isDarkBackground = currentSlideData.darkBg;
 
   return (
-    <div className="fixed top-4 left-4 md:top-12 md:left-12 z-30 flex flex-col gap-2 md:gap-3">
+    <>
+      {/* Desktop Navigation - Left side vertical */}
+      <div className="hidden md:flex fixed top-12 left-12 z-30 flex-col gap-3">
       {slides.map((slide) => (
         <button
           key={slide.id}
@@ -280,9 +284,9 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
           title={`Go to slide ${slide.number}`}
         >
           <div
-            className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-xs md:text-sm transition-all shadow-lg ${
+            className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[10px] md:text-sm transition-all shadow-lg ${
               currentSlide === slide.number
-                ? 'bg-pp-green text-white scale-110 border-2 border-pp-pink'
+                ? 'bg-pp-green text-white md:scale-110 border-2 border-pp-pink'
                 : 'bg-white backdrop-blur-sm text-pp-green group-hover:bg-pp-green group-hover:text-white group-hover:scale-105 border-2 border-pp-green/30'
             }`}
           >
@@ -304,15 +308,42 @@ const SlideNavigation: React.FC<{ currentSlide: string }> = ({ currentSlide }) =
           </span>
         </button>
       ))}
-    </div>
+      </div>
+
+      {/* Mobile Navigation - Bottom bar horizontal */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-pp-pink/30 z-30 shadow-2xl">
+        <div className="flex justify-around items-center py-2 px-2 overflow-x-auto">
+          {slides.map((slide) => (
+            <button
+              key={slide.id}
+              onClick={() => handleSlideClick(slide.id)}
+              className="flex flex-col items-center gap-0.5 min-w-[50px] group"
+            >
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[10px] transition-all shadow-md ${
+                  currentSlide === slide.number
+                    ? 'bg-pp-green text-white scale-110 border-2 border-pp-pink'
+                    : 'bg-white text-pp-green group-hover:bg-pp-green group-hover:text-white border-2 border-pp-green/30'
+                }`}
+              >
+                {slide.number}
+              </div>
+              <span className="text-[8px] text-gray-600 font-semibold truncate max-w-[50px]">
+                {slide.title.split(' ')[0]}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 
 const TechNote: React.FC<{ text: string; light?: boolean }> = ({ text, light = false }) => (
-  <div className={`mt-6 ${light ? 'bg-white/10 border-white/30' : 'bg-pp-green/10 border-pp-green'} border-l-4 p-4 rounded-r-lg max-w-xl ${light ? 'hover:bg-white/20' : 'hover:bg-pp-green/20'} transition-colors`}>
-    <div className="flex items-start gap-3">
-      <Zap className={`w-5 h-5 ${light ? 'text-pp-teal' : 'text-pp-green'} shrink-0 mt-1`} />
-      <p className={`text-sm font-semibold ${light ? 'text-white' : 'text-pp-green'} leading-relaxed font-mono`}>
+  <div className={`mt-3 sm:mt-4 md:mt-6 ${light ? 'bg-white/10 border-white/30' : 'bg-pp-green/10 border-pp-green'} border-l-2 sm:border-l-3 md:border-l-4 p-2 sm:p-3 md:p-4 rounded-r-lg max-w-xl ${light ? 'hover:bg-white/20' : 'hover:bg-pp-green/20'} transition-colors`}>
+    <div className="flex items-start gap-2 sm:gap-2.5 md:gap-3">
+      <Zap className={`w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 ${light ? 'text-pp-teal' : 'text-pp-green'} shrink-0 mt-0.5 sm:mt-1`} />
+      <p className={`text-xs sm:text-sm font-semibold ${light ? 'text-white' : 'text-pp-green'} leading-relaxed font-mono`}>
         {text}
       </p>
     </div>
@@ -328,7 +359,8 @@ const AddToPackageButton: React.FC<{
   convertPrice: (price: number, currency: string) => string;
   serviceNotes: Record<string, string>;
   onUpdateNotes: (serviceId: string, notes: string) => void;
-}> = ({ serviceId, isSelected, onToggle, light = false, currency, convertPrice, serviceNotes, onUpdateNotes }) => {
+  showPrice?: boolean;
+}> = ({ serviceId, isSelected, onToggle, light = false, currency, convertPrice, serviceNotes, onUpdateNotes, showPrice = true }) => {
   // Find service - could be a regular service or a sub-service within a bundle
   let service: any = SERVICES.find(s => s.id === serviceId);
 
@@ -348,10 +380,10 @@ const AddToPackageButton: React.FC<{
   if (!service) return null;
 
   return (
-    <div className="mt-6">
+    <div className="mt-3 sm:mt-4 md:mt-6">
       <button
         onClick={onToggle}
-        className={`w-full flex items-center justify-between gap-4 px-6 py-4 rounded-xl font-bold text-sm transition-all shadow-lg transform hover:scale-105 active:scale-95 ${
+        className={`w-full flex items-center justify-between gap-2 sm:gap-3 md:gap-4 px-3 py-3 sm:px-4 sm:py-3.5 md:px-6 md:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all shadow-lg transform hover:scale-105 active:scale-95 ${
           isSelected
             ? 'bg-pp-pink text-white border-2 border-pp-pink'
             : light
@@ -359,25 +391,27 @@ const AddToPackageButton: React.FC<{
             : 'bg-white text-pp-green border-2 border-pp-green/30 hover:bg-pp-green/5'
         }`}
       >
-        <div className="text-left">
-          <div className="flex items-center gap-2">
-            {isSelected ? <CheckCircle2 className="w-5 h-5" /> : <div className="w-5 h-5 rounded-full border-2 border-current" />}
+        <div className="text-left flex-1">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {isSelected ? <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-current" />}
             <span>{isSelected ? 'Added to Package' : 'Yes, I\'m Interested'}</span>
           </div>
-          <div className={`text-xs mt-1 ${isSelected ? 'text-white/80' : light ? 'text-white/60' : 'text-gray-500'}`}>
+          <div className={`text-[10px] sm:text-xs mt-0.5 sm:mt-1 ${isSelected ? 'text-white/80' : light ? 'text-white/60' : 'text-gray-500'}`}>
             {service.description}
           </div>
         </div>
-        <div className={`text-2xl font-bold ${isSelected ? 'text-white' : light ? 'text-pp-teal' : 'text-pp-pink'}`}>
-          {convertPrice(service.price || service.basePrice || 0, currency)}
-          <span className="text-xs font-normal">/mo</span>
-        </div>
+        {showPrice && (
+          <div className={`text-lg sm:text-xl md:text-2xl font-bold ${isSelected ? 'text-white' : light ? 'text-pp-teal' : 'text-pp-pink'}`}>
+            {convertPrice(service.price || service.basePrice || 0, currency)}
+            <span className="text-[10px] sm:text-xs font-normal">/mo</span>
+          </div>
+        )}
       </button>
 
       {/* Notes input - shows when service is selected */}
       {isSelected && (
-        <div className={`mt-3 p-4 rounded-xl ${light ? 'bg-white/10 border border-white/20' : 'bg-white border-2 border-pp-pink/20'}`}>
-          <label className={`block text-xs font-semibold mb-2 ${light ? 'text-white/90' : 'text-gray-700'}`}>
+        <div className={`mt-2 sm:mt-3 p-3 sm:p-4 rounded-lg sm:rounded-xl ${light ? 'bg-white/10 border border-white/20' : 'bg-white border-2 border-pp-pink/20'}`}>
+          <label className={`block text-[10px] sm:text-xs font-semibold mb-1.5 sm:mb-2 ${light ? 'text-white/90' : 'text-gray-700'}`}>
             Add notes or special requirements:
           </label>
           <textarea
@@ -385,7 +419,7 @@ const AddToPackageButton: React.FC<{
             onChange={(e) => onUpdateNotes(serviceId, e.target.value)}
             onClick={(e) => e.stopPropagation()}
             placeholder="e.g., Need integration with specific platform, custom branding requirements, timeline considerations..."
-            className={`w-full px-3 py-2 text-sm rounded-lg resize-none transition-all ${
+            className={`w-full px-2 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-md sm:rounded-lg resize-none transition-all ${
               light
                 ? 'bg-white/20 border border-white/30 text-white placeholder-white/50 focus:ring-2 focus:ring-pp-pink focus:border-transparent'
                 : 'bg-white border border-gray-300 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-pp-pink focus:border-transparent'
@@ -400,14 +434,14 @@ const AddToPackageButton: React.FC<{
 
 const ComicImage: React.FC<{ src: string; alt: string; caption?: string }> = ({ src, alt, caption }) => (
   <div className="relative group perspective-1000">
-    <div className="absolute inset-0 bg-pp-green rounded-lg transform translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform"></div>
-    <div className="relative bg-white border-4 border-pp-green p-2 rounded-lg transform transition-transform group-hover:-translate-y-1 group-hover:-translate-x-1 shadow-xl">
-      <div className="overflow-hidden rounded h-64 md:h-80 relative bg-gray-200">
+    <div className="absolute inset-0 bg-pp-green rounded-md sm:rounded-lg transform translate-x-2 translate-y-2 sm:translate-x-3 sm:translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform"></div>
+    <div className="relative bg-white border-2 sm:border-3 md:border-4 border-pp-green p-1.5 sm:p-2 rounded-md sm:rounded-lg transform transition-transform group-hover:-translate-y-1 group-hover:-translate-x-1 shadow-xl">
+      <div className="overflow-hidden rounded h-48 sm:h-56 md:h-80 relative bg-gray-200">
         <img src={src} alt={alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
       </div>
       {caption && (
-        <div className="absolute bottom-4 left-4 right-4 bg-white/95 p-3 text-center border-2 border-pp-green font-comic text-sm transform -rotate-1 shadow-lg text-pp-green z-20">
+        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 left-2 sm:left-3 md:left-4 right-2 sm:right-3 md:right-4 bg-white/95 p-2 sm:p-2.5 md:p-3 text-center border border-pp-green sm:border-2 font-comic text-xs sm:text-sm transform -rotate-1 shadow-lg text-pp-green z-20">
           {caption}
         </div>
       )}
@@ -696,39 +730,176 @@ const App: React.FC = () => {
       <Panel
         id="hero"
         nextId="panel1"
-        className="bg-pp-green bg-cover bg-center text-white relative"
-        style={{ backgroundImage: "url('/images/hero-background.jpeg')" }}
+        className="bg-black text-white relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40"></div>
+        <style>{`
+          @keyframes heroFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          @keyframes titleSlideInLeft {
+            0% {
+              opacity: 0;
+              transform: translateX(-100px) scale(0.8);
+            }
+            100% {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
+          @keyframes titleSlideInRight {
+            0% {
+              opacity: 0;
+              transform: translateX(100px) scale(0.8);
+            }
+            100% {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
+          @keyframes titleGlow {
+            0%, 100% {
+              text-shadow: 0 0 20px rgba(236, 72, 153, 0.5),
+                           0 0 40px rgba(236, 72, 153, 0.3),
+                           0 4px 8px rgba(0, 0, 0, 0.8);
+            }
+            50% {
+              text-shadow: 0 0 30px rgba(236, 72, 153, 0.8),
+                           0 0 60px rgba(236, 72, 153, 0.5),
+                           0 4px 12px rgba(0, 0, 0, 0.9);
+            }
+          }
+          @keyframes ampersandSpin {
+            0% {
+              opacity: 0;
+              transform: rotate(-180deg) scale(0);
+            }
+            70% {
+              transform: rotate(10deg) scale(1.2);
+            }
+            100% {
+              opacity: 1;
+              transform: rotate(0deg) scale(1);
+            }
+          }
+          @keyframes titleDisappear {
+            0% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            100% {
+              opacity: 0;
+              transform: scale(1.5);
+            }
+          }
+          @keyframes imageFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+        `}</style>
 
-        {/* Badge positioned at top */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 z-20" style={{ top: '250px' }}>
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl">
-            <MapPin className="w-4 h-4 text-pp-pink" />
-            Siargao Island • Philippines
+        {/* Desktop background - standard cover */}
+        <div
+          className="hidden md:block absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/hero-background.jpeg')" }}
+        ></div>
+
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40"></div>
+
+        {/* Mobile Layout */}
+        <div className="md:hidden relative min-h-screen">
+          {/* Full screen mobile background image */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url('/images/c657de4c-0eba-492b-8f34-c14290cd3e21%20(1).png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          ></div>
+
+          {/* Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70"></div>
+
+          {/* Content Container */}
+          <div className="relative z-10 min-h-screen flex flex-col justify-between py-16 px-6">
+
+            {/* Top Section: Badge */}
+            <div className="flex justify-center pt-8">
+              <div className="inline-flex items-center gap-2 bg-black/70 backdrop-blur-md border border-white/50 px-4 py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl text-xs">
+                <MapPin className="w-4 h-4 text-pp-pink" />
+                Siargao Island • Philippines
+              </div>
+            </div>
+
+            {/* Middle Section: Padel & Palms Title */}
+            <div className="flex-1 flex items-center justify-center">
+              <h1 className="font-serif font-black text-white leading-tight text-center" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.8)' }}>
+                <div className="text-6xl mb-3">
+                  Padel
+                </div>
+                <div className="text-7xl text-pp-pink my-4">
+                  &
+                </div>
+                <div className="text-6xl mt-3">
+                  Palms
+                </div>
+              </h1>
+            </div>
+
+            {/* Bottom Section: Description and CTA */}
+            <div className="space-y-4 pb-8">
+              <h2 className="text-xl font-bold font-sans text-white tracking-wide text-center" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.95), 0 4px 20px rgba(0,0,0,0.9)' }}>
+                Your Complete Automation Solution
+              </h2>
+
+              <p className="max-w-md mx-auto text-sm font-sans text-center leading-relaxed text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 3px 16px rgba(0,0,0,0.8)' }}>
+                Seamless booking automation, guest engagement, and AI-powered support for your resort.
+              </p>
+
+              <div className="text-center pt-2">
+                <button
+                  onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="bg-pink-600 hover:bg-pink-500 text-white px-8 py-4 rounded-full font-bold text-base shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
+                >
+                  See How It Works
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <div className="relative z-10 text-center max-w-5xl mx-auto space-y-8 animate-fade-in-up" style={{ paddingTop: 'calc(12rem + 200px)' }}>
-          {/* Text overlay removed as it's baked into the image, we keep the subtitle structure layout but transparent or subtle */}
-          <div className="h-24 md:h-32"></div>
+        {/* Desktop Layout - Original overlay style */}
+        <div className="hidden md:block">
+          {/* Badge positioned at top */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-20 top-48 md:top-60">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 md:px-6 md:py-2 rounded-full text-white font-bold tracking-wider uppercase shadow-2xl text-sm md:text-base">
+              <MapPin className="w-4 h-4 text-pp-pink" />
+              Siargao Island • Philippines
+            </div>
+          </div>
 
-          <h2 className="text-2xl md:text-4xl font-bold font-sans text-white tracking-wide mt-4 drop-shadow-lg">
-            Padel & Palms: Your Complete Automation Solution
-          </h2>
-          <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans border-l-4 border-pp-pink pl-6 text-left drop-shadow-md leading-relaxed">
-            Transform your resort operations with seamless booking automation, guest engagement, and AI-powered support. From villa reservations to court bookings—all in one effortless system.
-          </p>
+          <div className="relative z-10 text-center max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up pt-60 md:pt-80 px-4">
+            <div className="h-20 md:h-32"></div>
 
-          {/* Review Proposal CTA - Scrolls to first section */}
-          <div className="mt-8 md:mt-12 px-4">
-            <button
-              onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="bg-pink-600 hover:bg-pink-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
-            >
-              See How It Works
-            </button>
-            <p className="mt-4 text-xs md:text-sm text-gray-300">Discover the complete automation system built for Padel & Palms</p>
+            <h2 className="text-2xl md:text-4xl font-bold font-sans text-white tracking-wide mt-3 md:mt-4 drop-shadow-lg">
+              Padel & Palms: Your Complete Automation Solution
+            </h2>
+            <p className="max-w-3xl mx-auto text-base md:text-xl opacity-95 font-sans border-l-3 md:border-l-4 border-pp-pink pl-4 md:pl-6 text-left drop-shadow-md leading-relaxed">
+              Transform your resort operations with seamless booking automation, guest engagement, and AI-powered support. From villa reservations to court bookings—all in one effortless system.
+            </p>
+
+            {/* Review Proposal CTA - Scrolls to first section */}
+            <div className="mt-6 md:mt-12">
+              <button
+                onClick={() => document.getElementById('panel1')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="bg-pink-600 hover:bg-pink-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl shadow-2xl transform transition-all hover:scale-105 active:scale-95 uppercase tracking-wider"
+              >
+                See How It Works
+              </button>
+              <p className="mt-4 text-sm text-gray-300">Discover the complete automation system built for Padel & Palms</p>
+            </div>
           </div>
         </div>
       </Panel>
@@ -736,8 +907,8 @@ const App: React.FC = () => {
       {/* --- PANEL 1: Acquisition --- */}
       <Panel id="panel1" nextId="panel2" className="bg-white">
         <HandwrittenNote text="No more manual data entry! Every booking from Booking.com, Agoda, or Airbnb flows straight into your system. Automatically." />
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-6xl w-full">
-          <div className="space-y-4 md:space-y-6">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center max-w-6xl w-full px-4">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
             <div className="flex items-center gap-2 md:gap-3 mb-2">
               <Globe className="text-pp-teal w-6 h-6 md:w-8 md:h-8" />
               <h2 className="text-2xl md:text-4xl font-bold text-pp-green font-serif">All Your Bookings, One System</h2>
@@ -764,6 +935,7 @@ const App: React.FC = () => {
               convertPrice={convertPrice}
               serviceNotes={serviceNotes}
               onUpdateNotes={updateServiceNotes}
+              showPrice={false}
             />
           </div>
           <ComicImage
@@ -777,49 +949,49 @@ const App: React.FC = () => {
       {/* --- PANEL 2: Activation --- */}
       <Panel id="panel2" nextId="panel3" className="bg-pp-green/5">
         <HandwrittenNote text="Send personalized WhatsApp messages to guests BEFORE they arrive. Court bookings start before check-in!" />
-        <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
-          <div className="order-2 md:order-1 relative h-96 flex items-center justify-center">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center max-w-6xl w-full px-4">
+          <div className="order-2 md:order-1 relative h-64 sm:h-80 md:h-96 flex items-center justify-center">
              {/* Split Screen Visual Mockup */}
-             <div className="absolute left-0 top-10 w-56 bg-white border-4 border-gray-800 rounded-3xl p-4 shadow-2xl transform -rotate-6 z-20 hover:rotate-0 transition-transform duration-500">
-               <div className="flex items-center gap-2 mb-4 border-b pb-2">
-                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">WA</div>
-                 <div className="text-xs">
+             <div className="absolute left-0 sm:left-2 top-8 sm:top-10 w-40 sm:w-48 md:w-56 bg-white border-2 sm:border-3 md:border-4 border-gray-800 rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-4 shadow-2xl transform -rotate-6 z-20 hover:rotate-0 transition-transform duration-500">
+               <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 md:mb-4 border-b pb-1.5 sm:pb-2">
+                 <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm">WA</div>
+                 <div className="text-[10px] sm:text-xs">
                     <p className="font-bold">Padel & Palms</p>
                     <p className="text-gray-500">Online</p>
                  </div>
                </div>
-               <div className="bg-green-50 p-3 rounded-lg text-xs text-gray-800 shadow-inner">
+               <div className="bg-green-50 p-2 sm:p-2.5 md:p-3 rounded-lg text-[10px] sm:text-xs text-gray-800 shadow-inner">
                  "Welcome to Siargao, Alex! 🌴 Your villa is ready. Want to secure a sunset court slot before they're gone?"
                </div>
-               <div className="mt-2 bg-blue-500 text-white text-center py-2 rounded font-bold text-xs cursor-pointer hover:bg-blue-600">
+               <div className="mt-1.5 sm:mt-2 bg-blue-500 text-white text-center py-1.5 sm:py-2 rounded font-bold text-[10px] sm:text-xs cursor-pointer hover:bg-blue-600">
                  Book Court 5 (Sunset)
                </div>
              </div>
-             
-             <div className="absolute right-0 bottom-10 w-56 bg-white border-4 border-[#005c9a] rounded-xl p-6 shadow-2xl transform rotate-3 flex flex-col items-center justify-center gap-4 z-10 hover:rotate-0 transition-transform duration-500">
+
+             <div className="absolute right-0 sm:right-2 bottom-8 sm:bottom-10 w-40 sm:w-48 md:w-56 bg-white border-2 sm:border-3 md:border-4 border-[#005c9a] rounded-xl p-3 sm:p-4 md:p-6 shadow-2xl transform rotate-3 flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-10 hover:rotate-0 transition-transform duration-500">
                {/* Playtomic Fake Logo */}
-               <div className="font-bold text-[#005c9a] text-2xl flex items-center gap-2">
-                 <div className="w-6 h-6 rounded-full border-4 border-[#005c9a]"></div>
+               <div className="font-bold text-[#005c9a] text-base sm:text-xl md:text-2xl flex items-center gap-1.5 sm:gap-2">
+                 <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 sm:border-3 md:border-4 border-[#005c9a]"></div>
                  Playtomic
                </div>
-               <div className="w-full bg-gray-100 rounded p-2">
-                 <div className="flex justify-between text-xs mb-1 font-bold text-gray-600">
+               <div className="w-full bg-gray-100 rounded p-1.5 sm:p-2">
+                 <div className="flex justify-between text-[10px] sm:text-xs mb-1 font-bold text-gray-600">
                    <span>Court 1</span>
                    <span>17:00 - 18:30</span>
                  </div>
-                 <div className="h-2 bg-gray-300 rounded-full overflow-hidden">
+                 <div className="h-1.5 sm:h-2 bg-gray-300 rounded-full overflow-hidden">
                    <div className="h-full bg-green-500 w-full animate-pulse"></div>
                  </div>
                </div>
-               <span className="text-sm text-green-600 font-bold flex items-center"><CheckCircle2 className="w-4 h-4 mr-1"/> Instant Sync</span>
+               <span className="text-xs sm:text-sm text-green-600 font-bold flex items-center"><CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1"/> Instant Sync</span>
              </div>
           </div>
-          <div className="order-1 md:order-2 space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Smartphone className="text-pp-pink w-8 h-8" />
-              <h2 className="text-2xl md:text-4xl font-bold text-pp-green font-serif">Engage Guests Before They Arrive</h2>
+          <div className="order-1 md:order-2 space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-2">
+              <Smartphone className="text-pp-pink w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+              <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-pp-green font-serif">Engage Guests Before They Arrive</h2>
             </div>
-            <p className="text-base md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-xl text-gray-600 leading-relaxed">
               Automatically send personalized WhatsApp messages days before check-in. Guests can book court slots, order amenities, and plan their stay—all before setting foot on the island. <span className="font-semibold text-pp-green">Result: Higher pre-arrival bookings and better guest experience.</span>
             </p>
             <TechNote text="Pre-built message templates ready to deploy: Pre-arrival welcome with court booking links • Post-booking upsells (F&B, amenities) • Check-in reminders • Activity suggestions • Repeat guest offers. All messages are customizable—alternative triggers and custom flows available on request." />
@@ -832,6 +1004,7 @@ const App: React.FC = () => {
               convertPrice={convertPrice}
               serviceNotes={serviceNotes}
               onUpdateNotes={updateServiceNotes}
+              showPrice={false}
             />
           </div>
         </div>
@@ -840,13 +1013,13 @@ const App: React.FC = () => {
       {/* --- PANEL 3: Calendar Integrity --- */}
       <Panel id="panel3" nextId="panel4" className="bg-white">
         <HandwrittenNote text="Zero double bookings. Ever. Your court calendars sync across ALL platforms in real-time. Peace of mind guaranteed." />
-        <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Calendar className="text-pp-teal w-8 h-8" />
-              <h2 className="text-2xl md:text-4xl font-bold text-pp-green font-serif">Never Double-Book a Court Again</h2>
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center max-w-6xl w-full px-4">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-2">
+              <Calendar className="text-pp-teal w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+              <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-pp-green font-serif">Never Double-Book a Court Again</h2>
             </div>
-            <p className="text-base md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-xl text-gray-600 leading-relaxed">
               Real-time sync between your P&P website and Playtomic means court availability is always accurate—automatically. Book on either platform, and both update instantly. <span className="font-semibold text-pp-green">No conflicts. No awkward conversations. No disappointed guests.</span>
             </p>
             <TechNote text="Bi-directional sync between P&P website and Playtomic ensures court availability is always accurate. Book on either platform, sync happens instantly." />
@@ -859,6 +1032,7 @@ const App: React.FC = () => {
               convertPrice={convertPrice}
               serviceNotes={serviceNotes}
               onUpdateNotes={updateServiceNotes}
+              showPrice={false}
             />
           </div>
           <ComicImage
@@ -881,19 +1055,19 @@ const App: React.FC = () => {
             AI-powered contextual upsells sent at the perfect moment
           </p>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center w-full px-4">
             {/* Phone Mockup */}
-            <div className="mx-auto w-[340px] bg-white rounded-[3rem] border-8 border-gray-950 overflow-hidden shadow-2xl relative">
-              <div className="bg-[#075e54] h-16 flex items-center px-6 gap-3">
-                 <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
+            <div className="mx-auto w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px] bg-white rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3rem] border-4 sm:border-6 md:border-8 border-gray-950 overflow-hidden shadow-2xl relative">
+              <div className="bg-[#075e54] h-12 sm:h-14 md:h-16 flex items-center px-3 sm:px-4 md:px-6 gap-2 sm:gap-2.5 md:gap-3">
+                 <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
                    <img src="/images/padel-palms-logo.png" alt="P&P" className="w-full h-full object-cover" />
                  </div>
                  <div>
-                   <p className="font-bold text-white text-sm">Padel & Palms</p>
-                   <p className="text-white/60 text-xs">Resort Assistant</p>
+                   <p className="font-bold text-white text-xs sm:text-sm">Padel & Palms</p>
+                   <p className="text-white/60 text-[10px] sm:text-xs">Resort Assistant</p>
                  </div>
               </div>
-              <div className="bg-[#e5ddd5] h-[520px] p-4 flex flex-col gap-4 relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxwYXRoIGQ9Ik0wIDUwIEwgNTAgMCBMIDEwMCA1MCBMIDUwIDEwMCBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwwLDAsMC4wMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')]">
+              <div className="bg-[#e5ddd5] h-[400px] sm:h-[460px] md:h-[520px] p-3 sm:p-3.5 md:p-4 flex flex-col gap-3 sm:gap-3.5 md:gap-4 relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxwYXRoIGQ9Ik0wIDUwIEwgNTAgMCBMIDEwMCA1MCBMIDUwIDEwMCBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwwLDAsMC4wMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')]">
                 {/* Message Bubble with Image */}
                 <div className="self-start bg-white p-2 rounded-2xl rounded-tl-none shadow-lg max-w-[90%] text-gray-800 text-sm relative animate-fade-in-up">
                    <p className="font-bold text-pp-green text-xs mb-2 px-2 pt-1">Padel & Palms Assistant</p>
@@ -972,6 +1146,7 @@ const App: React.FC = () => {
                  convertPrice={convertPrice}
                  serviceNotes={serviceNotes}
                  onUpdateNotes={updateServiceNotes}
+                 showPrice={false}
                />
             </div>
           </div>
@@ -1033,6 +1208,7 @@ const App: React.FC = () => {
                 convertPrice={convertPrice}
                 serviceNotes={serviceNotes}
                 onUpdateNotes={updateServiceNotes}
+                showPrice={false}
               />
               <AddToPackageButton
                 serviceId="ai-voice"
@@ -1043,6 +1219,7 @@ const App: React.FC = () => {
                 convertPrice={convertPrice}
                 serviceNotes={serviceNotes}
                 onUpdateNotes={updateServiceNotes}
+                showPrice={false}
               />
             </div>
           </div>
@@ -1067,24 +1244,24 @@ const App: React.FC = () => {
              <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">40 professional posts per week across all your social media platforms. Our AI syncs with your booking calendar, villa management system, and court schedules to automatically generate branded content whenever events happen. New booking? Instantly turns into an Instagram post. Tournament scheduled? Facebook announcement ready. Zero manual work, maximum visibility.</p>
            </div>
 
-           {/* Compact Flow */}
-           <div className="w-full flex items-center justify-center gap-4 text-sm">
-              <div className="flex items-center gap-2 px-4 py-2 border-2 border-gray-200 rounded-lg bg-gray-50">
-                 <Calendar className="w-6 h-6 text-pp-pink" />
-                 <span className="font-bold">Event</span>
+           {/* Compact Flow - Responsive */}
+           <div className="w-full flex items-center justify-center gap-1.5 sm:gap-2 md:gap-4 text-xs sm:text-sm overflow-x-auto px-2">
+              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
+                 <Calendar className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-pp-pink flex-shrink-0" />
+                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">Event</span>
               </div>
-              <div className="text-2xl text-gray-300">→</div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-pp-green text-white rounded-lg shadow-lg">
-                 <Zap className="w-6 h-6 text-yellow-300" />
-                 <span className="font-bold">AI Magic</span>
+              <div className="text-lg sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
+              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 bg-pp-green text-white rounded-lg shadow-lg flex-shrink-0">
+                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-300 flex-shrink-0" />
+                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">AI Magic</span>
               </div>
-              <div className="text-2xl text-gray-300">→</div>
-              <div className="flex items-center gap-2 px-4 py-2 border-2 border-gray-200 rounded-lg bg-gray-50">
-                 <div className="flex gap-1">
-                    <Instagram className="w-5 h-5 text-pink-500" />
-                    <Facebook className="w-5 h-5 text-blue-600" />
+              <div className="text-lg sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
+              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
+                 <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
+                    <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-pink-500" />
+                    <Facebook className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600" />
                  </div>
-                 <span className="font-bold">Socials</span>
+                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">Socials</span>
               </div>
            </div>
 
@@ -1102,6 +1279,7 @@ const App: React.FC = () => {
                convertPrice={convertPrice}
                serviceNotes={serviceNotes}
                onUpdateNotes={updateServiceNotes}
+               showPrice={false}
              />
            </div>
         </div>
@@ -1110,13 +1288,13 @@ const App: React.FC = () => {
       {/* --- PANEL 7: Daily Pulse --- */}
       <Panel id="panel7" nextId="panel8" className="bg-gray-50">
         <HandwrittenNote text="One dashboard to rule them all. See Playtomic bookings, POS sales, and CRM data at a glance every morning." />
-        <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-               <TrendingUp className="text-pp-green w-8 h-8" />
-               <h2 className="text-2xl md:text-4xl font-bold text-pp-green font-serif">Your Entire Operation, One Dashboard</h2>
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center max-w-6xl w-full px-4">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-2">
+               <TrendingUp className="text-pp-green w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+               <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-pp-green font-serif">Your Entire Operation, One Dashboard</h2>
             </div>
-            <p className="text-base md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-xl text-gray-600 leading-relaxed">
               Morning coffee + morning insights. See Playtomic bookings, POS sales, and CRM data in one place. Spot trends, catch issues before they become problems, and make data-driven decisions—all before your first guest checks in.
             </p>
             <TechNote text="Business Intelligence & Anomaly Alerts. Data aggregated from Playtomic, POS, and CRM into one unified dashboard with smart notifications." />
@@ -1129,6 +1307,7 @@ const App: React.FC = () => {
               convertPrice={convertPrice}
               serviceNotes={serviceNotes}
               onUpdateNotes={updateServiceNotes}
+              showPrice={false}
             />
           </div>
 
@@ -1172,35 +1351,35 @@ const App: React.FC = () => {
       <Panel id="panel8" className="bg-white">
         <HandwrittenNote text="Pick your package. Start your transformation. Watch your island operation run like clockwork. Let's do this!" />
         <div className="w-full max-w-6xl space-y-16">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-             <div className="space-y-6">
-               <h2 className="text-2xl md:text-4xl font-bold text-pp-green font-serif">Ready to Transform Your Operations?</h2>
-               <p className="text-base md:text-xl text-gray-600 leading-relaxed">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center px-4">
+             <div className="space-y-3 sm:space-y-4 md:space-y-6">
+               <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-pp-green font-serif">Ready to Transform Your Operations?</h2>
+               <p className="text-sm sm:text-base md:text-xl text-gray-600 leading-relaxed">
                  This isn't just software—it's your complete automation partner. Eliminate manual data entry. Increase F&B revenue by 20%. Free your staff to focus on hospitality, not admin. Start small or go all-in. Either way, you'll see results from day one.
                </p>
-               <div className="flex gap-4 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
-                  <div className="text-[#635BFF] font-bold text-2xl flex items-center gap-1">
+               <div className="flex gap-3 sm:gap-4 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
+                  <div className="text-[#635BFF] font-bold text-lg sm:text-xl md:text-2xl flex items-center gap-1">
                      stripe
                   </div>
-                  <div className="text-black font-bold text-2xl flex items-center gap-1">
+                  <div className="text-black font-bold text-lg sm:text-xl md:text-2xl flex items-center gap-1">
                      GPay
                   </div>
                </div>
              </div>
-             <div className="bg-pp-green text-white p-8 rounded-2xl shadow-2xl rotate-1 hover:rotate-0 transition-transform cursor-pointer">
-               <h3 className="text-2xl font-bold mb-4 font-comic">The ROI Blueprint</h3>
-               <ul className="space-y-4">
-                 <li className="flex items-center gap-3">
-                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">1</div>
-                   <span>Zero missed booking opportunities.</span>
+             <div className="bg-pp-green text-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl rotate-1 hover:rotate-0 transition-transform cursor-pointer">
+               <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4 font-comic">The ROI Blueprint</h3>
+               <ul className="space-y-3 sm:space-y-4">
+                 <li className="flex items-center gap-2 sm:gap-3">
+                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm sm:text-base">1</div>
+                   <span className="text-sm sm:text-base">Zero missed booking opportunities.</span>
                  </li>
-                 <li className="flex items-center gap-3">
-                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">2</div>
-                   <span>20% Increase in F&B via upsells.</span>
+                 <li className="flex items-center gap-2 sm:gap-3">
+                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm sm:text-base">2</div>
+                   <span className="text-sm sm:text-base">20% Increase in F&B via upsells.</span>
                  </li>
-                 <li className="flex items-center gap-3">
-                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">3</div>
-                   <span>Staff focus on guests, not data entry.</span>
+                 <li className="flex items-center gap-2 sm:gap-3">
+                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm sm:text-base">3</div>
+                   <span className="text-sm sm:text-base">Staff focus on guests, not data entry.</span>
                  </li>
                </ul>
              </div>
@@ -1258,6 +1437,7 @@ const App: React.FC = () => {
 
         <p className="text-sm opacity-50 font-serif italic">&copy; 2025 The Effortless Flow Proposal • Created for Padel & Palms</p>
       </footer>
+
     </main>
   );
 };

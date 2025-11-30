@@ -95,36 +95,36 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   const hasCustomServices = selectedServices.length > 0;
 
   return (
-    <div className="bg-white p-4 md:p-8 rounded-2xl md:rounded-3xl shadow-xl border-t-4 md:border-t-8 border-pp-pink max-w-4xl mx-auto w-full">
-      <h2 className="text-2xl md:text-3xl font-bold text-pp-green mb-2 text-center">Start Your Transformation</h2>
-      <p className="text-center text-sm md:text-base text-gray-500 mb-6 md:mb-8">
+    <div className="bg-white p-3 sm:p-4 md:p-8 rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl border-t-2 sm:border-t-4 md:border-t-8 border-pp-pink max-w-4xl mx-auto w-full">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-pp-green mb-1 sm:mb-2 text-center">Start Your Transformation</h2>
+      <p className="text-center text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6 md:mb-8">
         {hasCustomServices ? 'Your custom package is ready below' : 'Choose a package or build your own as you explore'}
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {PACKAGES.map((pkg) => (
           <div 
             key={pkg.id}
             onClick={() => setSelectedId(pkg.id)}
-            className={`cursor-pointer rounded-2xl p-6 border-2 transition-all duration-300 relative ${
-              selectedId === pkg.id 
-                ? 'border-pp-green bg-pp-green/5 shadow-lg scale-105 z-10' 
+            className={`cursor-pointer rounded-lg sm:rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 transition-all duration-300 relative ${
+              selectedId === pkg.id
+                ? 'border-pp-green bg-pp-green/5 shadow-lg scale-105 z-10'
                 : 'border-gray-200 hover:border-pp-teal/50'
             }`}
           >
             {selectedId === pkg.id && (
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-pp-green text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-bold">
+              <div className="absolute -top-2 sm:-top-2.5 md:-top-3 left-1/2 transform -translate-x-1/2 bg-pp-green text-white text-[10px] sm:text-xs px-2 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-wider font-bold">
                 Selected
               </div>
             )}
-            <h3 className="font-bold text-lg text-pp-green">{pkg.name}</h3>
-            <div className="text-3xl font-bold text-gray-800 my-4">
-              {convertPrice(pkg.price, currency)}<span className="text-sm font-normal text-gray-500">/mo</span>
+            <h3 className="font-bold text-base sm:text-lg text-pp-green">{pkg.name}</h3>
+            <div className="text-2xl sm:text-2.5xl md:text-3xl font-bold text-gray-800 my-2 sm:my-3 md:my-4">
+              {convertPrice(pkg.price, currency)}<span className="text-xs sm:text-sm font-normal text-gray-500">/mo</span>
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               {pkg.features.map((feat, i) => (
-                <li key={i} className="text-sm text-gray-600 flex items-center gap-2">
-                  <Check className="w-4 h-4 text-pp-pink" />
+                <li key={i} className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
+                  <Check className="w-3 h-3 sm:w-4 sm:h-4 text-pp-pink flex-shrink-0" />
                   {feat}
                 </li>
               ))}
@@ -134,15 +134,15 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       </div>
 
       {/* Build Your Custom Package - Interactive Service Selection */}
-      <div className="mb-6 md:mb-8">
-        <h3 className="text-xl md:text-2xl font-bold text-pp-green mb-3 md:mb-4">
+      <div className="mb-4 sm:mb-6 md:mb-8">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pp-green mb-2 sm:mb-3 md:mb-4">
           Or Build Your Custom Package
         </h3>
-        <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+        <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4 md:mb-6">
           Select the services that fit your needs. Click any service to add or remove it from your package.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
           {SERVICES.map(service => {
             const hasWebsite = selectedServices.includes('website');
 
@@ -163,7 +163,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             return (
               <div
                 key={service.id}
-                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${
                   (isSelected || someSubsSelected)
                     ? 'border-pp-pink bg-pp-pink/10 shadow-md'
                     : isDisabled
@@ -172,32 +172,32 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 }`}
               >
                 {/* Service Header */}
-                <div className="mb-2">
+                <div className="mb-1.5 sm:mb-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 flex-1">
-                      <p className={`font-bold text-lg ${isDisabled ? 'text-gray-400' : 'text-gray-800'}`}>{service.name}</p>
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-1 flex-wrap">
+                      <p className={`font-bold text-sm sm:text-base md:text-lg ${isDisabled ? 'text-gray-400' : 'text-gray-800'}`}>{service.name}</p>
                       {service.isOneTime && (
-                        <span className="text-xs bg-pp-teal text-white px-2 py-0.5 rounded-full font-bold">ONE-TIME</span>
+                        <span className="text-[10px] sm:text-xs bg-pp-teal text-white px-1.5 py-0.5 sm:px-2 rounded-full font-bold">ONE-TIME</span>
                       )}
                       {service.requiresWebsite && !service.isBundle && (
-                        <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-bold">NEEDS WEBSITE</span>
+                        <span className="text-[10px] sm:text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 sm:px-2 rounded-full font-bold">NEEDS WEBSITE</span>
                       )}
                     </div>
                   </div>
-                  <p className={`text-sm mt-1 ${isDisabled ? 'text-gray-400' : 'text-gray-500'}`}>{service.description}</p>
+                  <p className={`text-xs sm:text-sm mt-0.5 sm:mt-1 ${isDisabled ? 'text-gray-400' : 'text-gray-500'}`}>{service.description}</p>
                   {isDisabled && (
-                    <p className="text-xs text-orange-600 mt-1 font-semibold">⚠ Select "Custom Website Build" first</p>
+                    <p className="text-[10px] sm:text-xs text-orange-600 mt-0.5 sm:mt-1 font-semibold">⚠ Select "Custom Website Build" first</p>
                   )}
                 </div>
 
                 {/* Bundle - Show "Select All" button and sub-services */}
                 {service.isBundle && service.subServices ? (
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 sm:space-y-2">
                     {/* Select All Button */}
                     <button
                       onClick={() => !isDisabled && onToggleService && onToggleService(service.id)}
                       disabled={isDisabled}
-                      className={`w-full px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                      className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-md sm:rounded-lg text-xs sm:text-sm font-bold transition-all ${
                         allSubsSelected
                           ? 'bg-pp-pink text-white'
                           : isDisabled
@@ -210,7 +210,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
 
                     {/* Dynamic Pricing Info */}
                     {service.dynamicPricing && someSubsSelected && service.subServices && service.subServices[0]?.pricePerCount && (
-                      <div className="bg-pp-teal/10 border border-pp-teal/30 rounded-lg p-2 text-xs text-gray-700">
+                      <div className="bg-pp-teal/10 border border-pp-teal/30 rounded-md sm:rounded-lg p-1.5 sm:p-2 text-[10px] sm:text-xs text-gray-700">
                         <strong>Volume Discount:</strong> 1 option = {convertPrice(service.subServices[0].pricePerCount[1], currency)}/mo, 2 options = {convertPrice(service.subServices[0].pricePerCount[2], currency)}/mo each, 3 options = {convertPrice(service.subServices[0].pricePerCount[3], currency)}/mo each
                       </div>
                     )}
@@ -228,10 +228,10 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                         : subService.price;
 
                       return (
-                        <div key={subService.id} className="space-y-2">
+                        <div key={subService.id} className="space-y-1.5 sm:space-y-2">
                           <div
                             onClick={() => !isDisabled && onToggleService && onToggleService(subService.id)}
-                            className={`flex items-start justify-between gap-3 p-3 rounded-lg cursor-pointer transition-all ${
+                            className={`flex items-start justify-between gap-2 sm:gap-3 p-2 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg cursor-pointer transition-all ${
                               isSubSelected
                                 ? 'bg-pp-pink/20 border border-pp-pink'
                                 : isDisabled
@@ -239,24 +239,24 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                                 : 'bg-white border border-gray-200 hover:border-pp-pink/50'
                             }`}
                           >
-                            <div className="flex items-start gap-2 flex-1">
-                              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                            <div className="flex items-start gap-1.5 sm:gap-2 flex-1">
+                              <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${
                                 isSubSelected
                                   ? 'border-pp-pink bg-pp-pink'
                                   : 'border-gray-300 bg-white'
                               }`}>
-                                {isSubSelected && <Check className="w-3 h-3 text-white" />}
+                                {isSubSelected && <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />}
                               </div>
                               <div>
-                                <p className="font-semibold text-sm text-gray-800">{subService.name}</p>
-                                <p className="text-xs text-gray-500">{subService.description}</p>
+                                <p className="font-semibold text-xs sm:text-sm text-gray-800">{subService.name}</p>
+                                <p className="text-[10px] sm:text-xs text-gray-500">{subService.description}</p>
                               </div>
                             </div>
                             <div className="text-right flex-shrink-0">
                               {displayPrice !== undefined ? (
                                 <>
-                                  <span className="font-bold text-pp-green">{convertPrice(displayPrice, currency)}</span>
-                                  <span className="text-xs text-gray-500 block">/mo</span>
+                                  <span className="font-bold text-sm sm:text-base text-pp-green">{convertPrice(displayPrice, currency)}</span>
+                                  <span className="text-[10px] sm:text-xs text-gray-500 block">/mo</span>
                                 </>
                               ) : null}
                             </div>
@@ -264,8 +264,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({
 
                           {/* Notes for sub-service */}
                           {isSubSelected && onUpdateNotes && (
-                            <div className="ml-8 p-2 bg-gray-50 rounded-lg">
-                              <label className="block text-xs font-semibold text-gray-600 mb-1">
+                            <div className="ml-4 sm:ml-6 md:ml-8 p-1.5 sm:p-2 bg-gray-50 rounded-md sm:rounded-lg">
+                              <label className="block text-[10px] sm:text-xs font-semibold text-gray-600 mb-0.5 sm:mb-1">
                                 Add notes for {subService.name}:
                               </label>
                               <textarea
@@ -273,7 +273,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                                 onChange={(e) => onUpdateNotes(subService.id, e.target.value)}
                                 onClick={(e) => e.stopPropagation()}
                                 placeholder="e.g., Specific use case, custom requirements..."
-                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-pp-pink focus:border-transparent resize-none transition-all"
+                                className="w-full px-1.5 py-1 sm:px-2 text-[10px] sm:text-xs border border-gray-300 rounded focus:ring-2 focus:ring-pp-pink focus:border-transparent resize-none transition-all"
                                 rows={2}
                               />
                             </div>

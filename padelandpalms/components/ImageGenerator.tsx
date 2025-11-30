@@ -89,16 +89,16 @@ export const ImageGenerator: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl border border-pp-teal/20 overflow-hidden w-full">
-      <div className="bg-pp-green text-white p-4 flex items-center justify-between">
+    <div className="bg-white rounded-3xl shadow-xl border border-pp-teal/20 overflow-hidden w-full max-w-full">
+      <div className="bg-pp-green text-white p-3 sm:p-4 flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-pp-pink" />
-          <h3 className="font-bold font-serif text-lg">Calendar Event Post Generator</h3>
+          <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-pp-pink flex-shrink-0" />
+          <h3 className="font-bold font-serif text-sm sm:text-base md:text-lg">Calendar Event Post Generator</h3>
         </div>
-        <span className="text-xs uppercase tracking-wider bg-white/10 px-2 py-1 rounded">Auto-Branded</span>
+        <span className="text-xs uppercase tracking-wider bg-white/10 px-2 py-1 rounded whitespace-nowrap">Auto-Branded</span>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6 p-6">
+      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6">
         {!hasKey ? (
           <div className="lg:col-span-2 text-center py-8 space-y-4">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
