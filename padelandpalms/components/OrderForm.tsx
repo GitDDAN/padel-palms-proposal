@@ -129,14 +129,13 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   const emailProviders = [
     { name: 'Gmail', domain: '@gmail.com' },
     { name: 'Outlook', domain: '@outlook.com' },
-    { name: 'Yahoo', domain: '@yahoo.com' },
-    { name: 'Custom', domain: '' }
+    { name: 'Yahoo', domain: '@yahoo.com' }
   ];
 
   // Update full email when local part or provider changes
   useEffect(() => {
-    if (emailProvider === 'Custom' || !emailProvider) {
-      // If custom or no provider, don't auto-update email
+    if (!emailProvider) {
+      // If no provider selected, don't auto-update email
       return;
     }
     if (emailLocalPart) {
@@ -150,7 +149,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   }, [emailLocalPart, emailProvider]);
 
   // Handle custom email input
-  const handleCustomEmailChange = (value: string) => {
+  const handleEmailChange = (value: string) => {
     setEmail(value);
     if (value.includes('@')) {
       const [localPart, domain] = value.split('@');
@@ -160,8 +159,11 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       if (matchingProvider) {
         setEmailProvider(matchingProvider.name);
       } else {
-        setEmailProvider('Custom');
+        // Custom email - clear provider selection
+        setEmailProvider('');
       }
+    } else {
+      setEmailLocalPart(value);
     }
   };
 
@@ -169,15 +171,14 @@ export const OrderForm: React.FC<OrderFormProps> = ({
     e.preventDefault();
 
     // Validate required fields
-    const finalEmail = emailProvider === 'Custom' ? email : (emailLocalPart && emailProvider ? email : '');
-    if (!finalEmail || !phone) {
+    if (!email || !phone) {
       setSubmitMessage({ type: 'error', text: 'Please fill in all required contact fields' });
       return;
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(finalEmail)) {
+    if (!emailRegex.test(email)) {
       setSubmitMessage({ type: 'error', text: 'Please enter a valid email address' });
       return;
     }
@@ -212,7 +213,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       });
 
       const payload = {
-        email: finalEmail,
+        email,
         phone,
         selectedServices: selectedServiceDetails,
         serviceNotes,
@@ -610,41 +611,81 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               Email Address <span className="text-red-500">*</span>
             </label>
             <div className="space-y-2">
-              <input
-                type="text"
-                id="email-local"
-                value={emailLocalPart}
-                onChange={(e) => setEmailLocalPart(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                placeholder="yourname"
-              />
+              {emailProvider ? (
+                <>
+                  <input
+                    type="text"
+                    id="email-local"
+                    value={emailLocalPart}
+                    onChange={(e) => {
+                      const newLocalPart = e.target.value;
+                      setEmailLocalPart(newLocalPart);
+                      const selectedProvider = emailProviders.find(p => p.name === emailProvider);
+                      if (selectedProvider && selectedProvider.domain) {
+                        setEmail(newLocalPart + selectedProvider.domain);
+                      }
+                    }}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                    placeholder="yourname"
+                  />
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    readOnly
+                    className="w-full px-4 py-3 border-2 border-pp-pink rounded-lg bg-pp-pink/5 text-base font-semibold"
+                  />
+                </>
+              ) : (
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                  placeholder="your@email.com"
+                />
+              )}
               {/* Email Provider Buttons */}
               <div className="flex flex-wrap gap-2">
                 {emailProviders.map(provider => (
                   <button
                     key={provider.name}
                     type="button"
-                    onClick={() => setEmailProvider(provider.name)}
+                    onClick={() => {
+                      setEmailProvider(provider.name);
+                      const localPart = emailLocalPart || (email.includes('@') ? email.split('@')[0] : '');
+                      setEmailLocalPart(localPart);
+                      if (localPart && provider.domain) {
+                        setEmail(localPart + provider.domain);
+                      } else if (provider.domain) {
+                        setEmail(provider.domain);
+                      }
+                    }}
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border-2 transition-all ${
                       emailProvider === provider.name
                         ? 'bg-pp-pink text-white border-pp-pink shadow-md'
                         : 'bg-white text-gray-700 border-gray-300 hover:border-pp-pink hover:text-pp-pink hover:bg-pp-pink/5'
                     }`}
                   >
-                    {provider.domain || provider.name}
+                    {provider.domain}
                   </button>
                 ))}
               </div>
-              {emailProvider === 'Custom' && (
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => handleCustomEmailChange(e.target.value)}
-                  required
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                  placeholder="your@email.com"
-                />
+              {emailProvider && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const localPart = email.includes('@') ? email.split('@')[0] : email;
+                    setEmailLocalPart(localPart);
+                    setEmailProvider('');
+                    setEmail(localPart);
+                  }}
+                  className="text-xs text-pp-pink hover:text-pp-green font-semibold underline"
+                >
+                  Use custom email instead
+                </button>
               )}
             </div>
           </div>

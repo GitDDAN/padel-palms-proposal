@@ -241,7 +241,11 @@ export const ImageGenerator: React.FC = () => {
                 <button
                   onClick={handleGenerate}
                   disabled={isGenerating || !eventName}
-                  className="flex-1 bg-pp-pink text-white py-3 rounded-xl font-bold shadow-md hover:bg-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className={`flex-1 py-3 rounded-xl font-bold shadow-md transition-all flex items-center justify-center gap-2 ${
+                    isGenerating || !eventName
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-pp-pink text-white hover:bg-pink-400'
+                  }`}
                 >
                   {isGenerating ? (
                     <>
