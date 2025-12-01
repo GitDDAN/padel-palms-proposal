@@ -605,12 +605,12 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       <div className="border-t border-gray-200 pt-6 mb-6">
         <h3 className="text-lg md:text-xl font-bold text-pp-green mb-4 text-center">Your Contact Information</h3>
         <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-          <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+          <div className="relative">
+            <label htmlFor="email-local" className="block text-sm font-semibold text-gray-700 mb-2">
               Email Address <span className="text-red-500">*</span>
             </label>
             <div className="space-y-2">
-              <div className="flex gap-2">
+              <div className="flex gap-2 relative z-0">
                 <input
                   type="text"
                   id="email-local"
@@ -622,7 +622,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 <select
                   value={emailProvider}
                   onChange={(e) => setEmailProvider(e.target.value)}
-                  className="px-3 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base bg-white"
+                  className="px-3 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base bg-white relative z-20"
+                  style={{ minWidth: '140px' }}
                 >
                   <option value="">Select...</option>
                   {emailProviders.map(provider => (
@@ -645,7 +646,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               )}
             </div>
           </div>
-          <div>
+          <div className="relative z-0">
             <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
               Phone Number <span className="text-red-500">*</span>
             </label>

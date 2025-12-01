@@ -713,11 +713,11 @@ const App: React.FC = () => {
 
   // Keyboard navigation
   React.useEffect(() => {
-    const sections = ['hero', 'panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6', 'panel7', 'panel8'];
+    const sections = ['hero', 'panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6', 'panel7', 'panel8', 'footer'];
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Only navigate if not typing in an input/textarea
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      // Only navigate if not typing in an input/textarea/select
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) {
         return;
       }
 
