@@ -215,8 +215,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         submittedAt: new Date().toISOString()
       };
 
-      // Send to n8n webhook (TEST MODE)
-      const response = await fetch('https://build8.app.n8n.cloud/webhook-test/eb767d8b-80e1-4eee-9e1d-442e328d6546', {
+      // Send to n8n webhook
+      const response = await fetch('https://build8.app.n8n.cloud/webhook/eb767d8b-80e1-4eee-9e1d-442e328d6546', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
