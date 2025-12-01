@@ -1,0 +1,9 @@
+[build]
+  command = "cd padelandpalms && npm install && npm run build"
+  publish = "padelandpalms/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+

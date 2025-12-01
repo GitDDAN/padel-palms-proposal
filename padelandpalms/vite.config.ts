@@ -15,8 +15,10 @@ export default defineConfig(({ mode }) => {
         plugins: [react()],
         define: {
             // Your environment variables for API keys
-            'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-            'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+            // Note: VITE_ prefixed vars are automatically available via import.meta.env
+            // This is for backwards compatibility if needed
+            'process.env.API_KEY': JSON.stringify(env.VITE_API_KEY || env.GEMINI_API_KEY),
+            'process.env.GEMINI_API_KEY': JSON.stringify(env.VITE_API_KEY || env.GEMINI_API_KEY)
         },
         resolve: {
             alias: {
