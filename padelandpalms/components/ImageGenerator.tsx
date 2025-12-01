@@ -153,7 +153,7 @@ export const ImageGenerator: React.FC = () => {
                   value={subSubject}
                   onChange={(e) => setSubSubject(e.target.value)}
                   className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pp-teal focus:border-transparent outline-none text-sm"
-                  placeholder="e.g., Every Wednesday, Open to All..."
+                  placeholder="e.g., Open to All, Bring Your Friends..."
                 />
               </div>
 

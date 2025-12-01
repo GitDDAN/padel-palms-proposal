@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PackageType, PackageDetails } from '../types';
 import { Check, X } from 'lucide-react';
 
@@ -120,16 +120,65 @@ export const OrderForm: React.FC<OrderFormProps> = ({
 }) => {
   const hasCustomServices = selectedServices.length > 0;
   const [email, setEmail] = useState('');
+  const [emailLocalPart, setEmailLocalPart] = useState('');
+  const [emailProvider, setEmailProvider] = useState('');
   const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const emailProviders = [
+    { name: 'Gmail', domain: '@gmail.com' },
+    { name: 'Outlook', domain: '@outlook.com' },
+    { name: 'Yahoo', domain: '@yahoo.com' },
+    { name: 'Custom', domain: '' }
+  ];
+
+  // Update full email when local part or provider changes
+  useEffect(() => {
+    if (emailProvider === 'Custom' || !emailProvider) {
+      // If custom or no provider, don't auto-update email
+      return;
+    }
+    if (emailLocalPart) {
+      const selectedProvider = emailProviders.find(p => p.name === emailProvider);
+      if (selectedProvider && selectedProvider.domain) {
+        setEmail(emailLocalPart + selectedProvider.domain);
+      }
+    } else {
+      setEmail('');
+    }
+  }, [emailLocalPart, emailProvider]);
+
+  // Handle custom email input
+  const handleCustomEmailChange = (value: string) => {
+    setEmail(value);
+    if (value.includes('@')) {
+      const [localPart, domain] = value.split('@');
+      setEmailLocalPart(localPart);
+      // Check if domain matches a known provider
+      const matchingProvider = emailProviders.find(p => value.endsWith(p.domain));
+      if (matchingProvider) {
+        setEmailProvider(matchingProvider.name);
+      } else {
+        setEmailProvider('Custom');
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validate required fields
-    if (!email || !phone) {
+    const finalEmail = emailProvider === 'Custom' ? email : (emailLocalPart && emailProvider ? email : '');
+    if (!finalEmail || !phone) {
       setSubmitMessage({ type: 'error', text: 'Please fill in all required contact fields' });
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(finalEmail)) {
+      setSubmitMessage({ type: 'error', text: 'Please enter a valid email address' });
       return;
     }
 
@@ -163,7 +212,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       });
 
       const payload = {
-        email,
+        email: finalEmail,
         phone,
         selectedServices: selectedServiceDetails,
         serviceNotes,
@@ -231,6 +280,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         });
         // Reset form
         setEmail('');
+        setEmailLocalPart('');
+        setEmailProvider('');
         setPhone('');
       } else {
         throw new Error('Failed to submit form');
@@ -558,15 +609,41 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
               Email Address <span className="text-red-500">*</span>
             </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-              placeholder="your@email.com"
-            />
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  id="email-local"
+                  value={emailLocalPart}
+                  onChange={(e) => setEmailLocalPart(e.target.value)}
+                  className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                  placeholder="yourname"
+                />
+                <select
+                  value={emailProvider}
+                  onChange={(e) => setEmailProvider(e.target.value)}
+                  className="px-3 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base bg-white"
+                >
+                  <option value="">Select...</option>
+                  {emailProviders.map(provider => (
+                    <option key={provider.name} value={provider.name}>
+                      {provider.domain || provider.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {emailProvider === 'Custom' && (
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => handleCustomEmailChange(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                  placeholder="your@email.com"
+                />
+              )}
+            </div>
           </div>
           <div>
             <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -579,7 +656,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               onChange={(e) => setPhone(e.target.value)}
               required
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-              placeholder="+1 (555) 123-4567"
+              placeholder="+63 9XX XXX XXXX"
             />
           </div>
         </div>

@@ -1421,7 +1421,7 @@ const App: React.FC = () => {
       </Panel>
 
       {/* --- PANEL 8: Investment & Order Form --- */}
-      <Panel id="panel8" className="bg-white">
+      <Panel id="panel8" nextId="footer" className="bg-white">
         <HandwrittenNote text="Pick your package. Start your transformation. Watch your island operation run like clockwork. Let's do this!" />
         <div className="w-full max-w-6xl space-y-16">
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center px-4">
@@ -1471,7 +1471,7 @@ const App: React.FC = () => {
         </div>
       </Panel>
 
-      <footer className="bg-pp-green text-white py-12 text-center relative overflow-hidden">
+      <footer id="footer" className="bg-pp-green text-white py-12 text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pp-teal to-pp-pink"></div>
         <div className="relative w-32 h-32 mx-auto mb-6">
           <img src="/images/padel-palms-logo.png" alt="Padel & Palms Logo" className="w-full h-full object-contain" />
