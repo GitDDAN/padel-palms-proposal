@@ -610,28 +610,30 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               Email Address <span className="text-red-500">*</span>
             </label>
             <div className="space-y-2">
-              <div className="flex gap-2 relative z-0">
-                <input
-                  type="text"
-                  id="email-local"
-                  value={emailLocalPart}
-                  onChange={(e) => setEmailLocalPart(e.target.value)}
-                  className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                  placeholder="yourname"
-                />
-                <select
-                  value={emailProvider}
-                  onChange={(e) => setEmailProvider(e.target.value)}
-                  className="px-3 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base bg-white relative z-20"
-                  style={{ minWidth: '140px' }}
-                >
-                  <option value="">Select...</option>
-                  {emailProviders.map(provider => (
-                    <option key={provider.name} value={provider.name}>
-                      {provider.domain || provider.name}
-                    </option>
-                  ))}
-                </select>
+              <input
+                type="text"
+                id="email-local"
+                value={emailLocalPart}
+                onChange={(e) => setEmailLocalPart(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                placeholder="yourname"
+              />
+              {/* Email Provider Buttons */}
+              <div className="flex flex-wrap gap-2">
+                {emailProviders.map(provider => (
+                  <button
+                    key={provider.name}
+                    type="button"
+                    onClick={() => setEmailProvider(provider.name)}
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border-2 transition-all ${
+                      emailProvider === provider.name
+                        ? 'bg-pp-pink text-white border-pp-pink shadow-md'
+                        : 'bg-white text-gray-700 border-gray-300 hover:border-pp-pink hover:text-pp-pink hover:bg-pp-pink/5'
+                    }`}
+                  >
+                    {provider.domain || provider.name}
+                  </button>
+                ))}
               </div>
               {emailProvider === 'Custom' && (
                 <input
