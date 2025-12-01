@@ -611,42 +611,23 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               Email Address <span className="text-red-500">*</span>
             </label>
             <div className="space-y-2">
-              {emailProvider ? (
-                <>
-                  <input
-                    type="text"
-                    id="email-local"
-                    value={emailLocalPart}
-                    onChange={(e) => {
-                      const newLocalPart = e.target.value;
-                      setEmailLocalPart(newLocalPart);
-                      const selectedProvider = emailProviders.find(p => p.name === emailProvider);
-                      if (selectedProvider && selectedProvider.domain) {
-                        setEmail(newLocalPart + selectedProvider.domain);
-                      }
-                    }}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                    placeholder="yourname"
-                  />
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    readOnly
-                    className="w-full px-4 py-3 border-2 border-pp-pink rounded-lg bg-pp-pink/5 text-base font-semibold"
-                  />
-                </>
-              ) : (
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => handleEmailChange(e.target.value)}
-                  required
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
-                  placeholder="your@email.com"
-                />
-              )}
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleEmailChange(value);
+                  // If user is typing and we have a provider selected, update local part
+                  if (emailProvider && value.includes('@')) {
+                    const [localPart] = value.split('@');
+                    setEmailLocalPart(localPart);
+                  }
+                }}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pp-pink focus:border-transparent transition-all text-base"
+                placeholder="your@email.com"
+              />
               {/* Email Provider Buttons */}
               <div className="flex flex-wrap gap-2">
                 {emailProviders.map(provider => (
@@ -655,11 +636,14 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                     type="button"
                     onClick={() => {
                       setEmailProvider(provider.name);
-                      const localPart = emailLocalPart || (email.includes('@') ? email.split('@')[0] : '');
+                      // Extract local part from current email or use emailLocalPart
+                      const localPart = emailLocalPart || (email.includes('@') ? email.split('@')[0] : email) || '';
                       setEmailLocalPart(localPart);
                       if (localPart && provider.domain) {
+                        // Set the full email in the main input field
                         setEmail(localPart + provider.domain);
                       } else if (provider.domain) {
+                        // If no local part, just show the domain (user can type before @)
                         setEmail(provider.domain);
                       }
                     }}
@@ -684,7 +668,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   }}
                   className="text-xs text-pp-pink hover:text-pp-green font-semibold underline"
                 >
-                  Use custom email instead
+                  Clear provider selection
                 </button>
               )}
             </div>
