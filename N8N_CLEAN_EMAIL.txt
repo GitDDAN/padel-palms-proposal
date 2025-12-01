@@ -1,0 +1,180 @@
+COPY THIS TO N8N - SPAM-FILTER SAFE EMAIL:
+================================================================================
+
+{{
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Padel and Palms Submission</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4;">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #1a3c34; padding: 30px; text-align: center;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: bold;">
+                New Padel and Palms Lead
+              </h1>
+              <p style="margin: 10px 0 0 0; color: #f9a8d4; font-size: 14px;">
+                ${new Date($json.body.submittedAt).toLocaleString('en-US', {
+                  weekday: 'short',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Contact Information -->
+          <tr>
+            <td style="padding: 30px;">
+              <h2 style="margin: 0 0 20px 0; color: #1a3c34; font-size: 18px; border-bottom: 2px solid #f9a8d4; padding-bottom: 10px;">
+                Contact Information
+              </h2>
+              <table width="100%" cellpadding="8" cellspacing="0">
+                <tr>
+                  <td width="120" style="color: #1a3c34; font-weight: bold;">Email:</td>
+                  <td style="color: #333333;">${$json.body.email}</td>
+                </tr>
+                <tr>
+                  <td style="color: #1a3c34; font-weight: bold;">Phone:</td>
+                  <td style="color: #333333;">${$json.body.phone}</td>
+                </tr>
+                <tr>
+                  <td style="color: #1a3c34; font-weight: bold;">Currency:</td>
+                  <td style="color: #333333;">${$json.body.currency}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Selected Services -->
+          <tr>
+            <td style="padding: 0 30px 30px 30px;">
+              <h2 style="margin: 0 0 20px 0; color: #1a3c34; font-size: 18px; border-bottom: 2px solid #f9a8d4; padding-bottom: 10px;">
+                Selected Services
+              </h2>
+              ${$json.body.selectedServices && $json.body.selectedServices.length > 0
+                ? $json.body.selectedServices.map(service => {
+                    if (service.options && service.options.length > 0) {
+                      return `
+                        <div style="margin-bottom: 20px; padding: 15px; background-color: #fffbeb; border-left: 4px solid #14b8a6; border-radius: 4px;">
+                          <p style="margin: 0 0 10px 0; font-weight: bold; color: #1a3c34; font-size: 16px;">
+                            ${service.category}
+                          </p>
+                          ${service.options.map(option => `
+                            <div style="margin: 10px 0 10px 15px; padding: 10px; background-color: #ffffff; border-radius: 4px;">
+                              <p style="margin: 0 0 5px 0; font-weight: bold; color: #14b8a6;">
+                                ${option.name}
+                              </p>
+                              <p style="margin: 0 0 5px 0; font-size: 14px; color: #666666;">
+                                ${option.description}
+                              </p>
+                              ${option.notes ? `
+                                <p style="margin: 10px 0 0 0; padding: 10px; background-color: #f0f9ff; border-left: 3px solid #14b8a6; font-size: 13px; color: #1a3c34;">
+                                  <strong>Notes:</strong> ${option.notes}
+                                </p>
+                              ` : ''}
+                            </div>
+                          `).join('')}
+                        </div>
+                      `;
+                    } else {
+                      return `
+                        <div style="margin-bottom: 15px; padding: 15px; background-color: #fffbeb; border-left: 4px solid #14b8a6; border-radius: 4px;">
+                          <p style="margin: 0 0 5px 0; font-weight: bold; color: #1a3c34; font-size: 16px;">
+                            ${service.category}
+                          </p>
+                          ${service.description ? `
+                            <p style="margin: 5px 0; font-size: 14px; color: #666666;">
+                              ${service.description}
+                            </p>
+                          ` : ''}
+                          ${service.notes ? `
+                            <p style="margin: 10px 0 0 0; padding: 10px; background-color: #f0f9ff; border-left: 3px solid #14b8a6; font-size: 13px; color: #1a3c34;">
+                              <strong>Notes:</strong> ${service.notes}
+                            </p>
+                          ` : ''}
+                        </div>
+                      `;
+                    }
+                  }).join('')
+                : '<p style="color: #666666; font-style: italic;">No services selected</p>'
+              }
+            </td>
+          </tr>
+
+          <!-- Pricing Summary -->
+          <tr>
+            <td style="padding: 0 30px 30px 30px;">
+              <table width="100%" cellpadding="15" cellspacing="0" style="background-color: #1a3c34; border-radius: 8px;">
+                <tr>
+                  <td>
+                    <h2 style="margin: 0 0 15px 0; color: #ffffff; font-size: 18px;">
+                      Pricing Summary
+                    </h2>
+                    <table width="100%" cellpadding="8" cellspacing="0">
+                      <tr>
+                        <td style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                          Monthly Recurring:
+                        </td>
+                        <td align="right" style="color: #f9a8d4; font-size: 18px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                          ${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalMonthly.toFixed(2)}/mo
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                          One-Time Fees:
+                        </td>
+                        <td align="right" style="color: #f9a8d4; font-size: 18px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                          ${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${$json.body.totalOneTime.toFixed(2)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="color: #ffffff; font-weight: bold; padding-top: 15px;">
+                          First Month Total:
+                        </td>
+                        <td align="right" style="color: #f9a8d4; font-size: 22px; font-weight: bold; padding-top: 15px;">
+                          ${$json.body.currency === 'EUR' ? '€' : $json.body.currency === 'GBP' ? '£' : '$'}${($json.body.totalMonthly + $json.body.totalOneTime).toFixed(2)}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px; background-color: #f4f4f4; text-align: center;">
+              <p style="margin: 0 0 10px 0; color: #1a3c34; font-weight: bold;">
+                Action Required
+              </p>
+              <p style="margin: 0; color: #666666; font-size: 14px;">
+                Please follow up with this customer within 24 hours.
+              </p>
+              <p style="margin: 15px 0 0 0; color: #999999; font-size: 12px;">
+                This is an automated notification from your Padel and Palms booking system.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+}}
+
+================================================================================

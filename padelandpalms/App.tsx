@@ -1318,23 +1318,23 @@ const App: React.FC = () => {
            </div>
 
            {/* Compact Flow - Responsive */}
-           <div className="w-full flex items-center justify-center gap-1.5 sm:gap-2 md:gap-4 text-xs sm:text-sm overflow-x-auto px-2">
-              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
-                 <Calendar className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-pp-pink flex-shrink-0" />
-                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">Event</span>
+           <div className="w-full flex items-center justify-center gap-1 sm:gap-2 md:gap-4 text-xs sm:text-sm px-2">
+              <div className="flex items-center gap-0.5 sm:gap-1.5 md:gap-2 px-1.5 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
+                 <Calendar className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 text-pp-pink flex-shrink-0" />
+                 <span className="font-bold whitespace-nowrap text-[10px] sm:text-sm">Event</span>
               </div>
-              <div className="text-lg sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
-              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 bg-pp-green text-white rounded-lg shadow-lg flex-shrink-0">
-                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-300 flex-shrink-0" />
-                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">AI Magic</span>
+              <div className="text-sm sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
+              <div className="flex items-center gap-0.5 sm:gap-1.5 md:gap-2 px-1.5 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 bg-pp-green text-white rounded-lg shadow-lg flex-shrink-0">
+                 <Zap className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-300 flex-shrink-0" />
+                 <span className="font-bold whitespace-nowrap text-[10px] sm:text-sm">AI Magic</span>
               </div>
-              <div className="text-lg sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
-              <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
+              <div className="text-sm sm:text-xl md:text-2xl text-gray-300 flex-shrink-0">→</div>
+              <div className="flex items-center gap-0.5 sm:gap-1.5 md:gap-2 px-1.5 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 border-2 border-gray-200 rounded-lg bg-gray-50 flex-shrink-0">
                  <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
-                    <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-pink-500" />
-                    <Facebook className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600" />
+                    <Instagram className="w-2.5 h-2.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-pink-500" />
+                    <Facebook className="w-2.5 h-2.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600" />
                  </div>
-                 <span className="font-bold whitespace-nowrap text-xs sm:text-sm">Socials</span>
+                 <span className="font-bold whitespace-nowrap text-[10px] sm:text-sm">Socials</span>
               </div>
            </div>
 

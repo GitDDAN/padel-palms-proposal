@@ -1,7 +1,21 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npx vite)",
+      "Bash(node:*)",
+      "Bash(copy \"c:\\Users\\DD19_\\Desktop\\c657de4c-0eba-492b-8f34-c14290cd3e21 (1).png\" \"C:\\Users\\DD19_\\Documents\\AAE\\Padel_n_Plams\\padel-&-palms_-the-effortless-flow-journey_2\\padelandpalms\\public\\images\\hero-mobile.png\")",
+      "Bash(ls:*)",
+      "Bash(copy \"C:\\Users\\DD19_\\Documents\\AAE\\Padel_n_Plams\\padel-&-palms_-the-effortless-flow-journey_2\\padelandpalms\\public\\images\\c657de4c-0eba-492b-8f34-c14290cd3e21 (1).png\" \"C:\\Users\\DD19_\\Documents\\AAE\\Padel_n_Plams\\padel-&-palms_-the-effortless-flow-journey_2\\padelandpalms\\public\\images\\hero-mobile.png\")",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
